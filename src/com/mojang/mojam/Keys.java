@@ -44,6 +44,8 @@ public class Keys {
     public Key give_harvester = new Key();
     public Key give_bomb = new Key();
     public Key add_slave = new Key();
+    public Key team1_score = new Key();
+    public Key team2_score = new Key();
 
     public void tick() {
         for (Key key : all)

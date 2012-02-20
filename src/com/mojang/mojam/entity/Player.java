@@ -141,6 +141,14 @@ public class Player extends Mob implements LootCollector {
         	level.addEntity(new RailDroid(pos.x, pos.y, team));
         }
         
+        if (keys.team1_score.isDown && !keys.team1_score.wasDown) {
+        	level.player1Score += 2;
+        }
+        
+        if (keys.team2_score.isDown && !keys.team2_score.wasDown) {
+        	level.player2Score += 2;
+        }
+        
         
         if (!keys.fire.isDown && xa * xa + ya * ya != 0) {
             xAim *= 0.7;

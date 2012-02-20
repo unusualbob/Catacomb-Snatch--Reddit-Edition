@@ -39,6 +39,11 @@ public class Keys {
     public Key fire = new Key();
     public Key build = new Key();
     public Key use = new Key();
+    public Key give_money = new Key();
+    public Key give_turret = new Key();
+    public Key give_harvester = new Key();
+    public Key give_bomb = new Key();
+    public Key add_slave = new Key();
 
     public void tick() {
         for (Key key : all)

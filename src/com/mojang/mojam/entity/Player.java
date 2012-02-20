@@ -4,7 +4,10 @@ import java.util.Random;
 
 import com.mojang.mojam.*;
 import com.mojang.mojam.entity.animation.SmokePuffAnimation;
+import com.mojang.mojam.entity.building.Bomb;
 import com.mojang.mojam.entity.building.Building;
+import com.mojang.mojam.entity.building.Harvester;
+import com.mojang.mojam.entity.building.Turret;
 import com.mojang.mojam.entity.loot.*;
 import com.mojang.mojam.entity.mob.*;
 import com.mojang.mojam.entity.particle.Sparkle;
@@ -107,7 +110,38 @@ public class Player extends Mob implements LootCollector {
         if (keys.right.isDown) {
             xa++;
         }
-
+        
+        // "Debug" hacks.
+        if (keys.give_money.isDown && !keys.give_money.wasDown) {
+        	score += 500;
+        }
+        
+        if (keys.give_turret.isDown) {
+            Building item = null;
+        	item = new Turret(pos.x, pos.y, team);
+            level.addEntity(item);
+            pickup(item);
+        }
+        
+        if (keys.give_harvester.isDown) {
+            Building item = null;
+            item = new Harvester(pos.x, pos.y, team);
+            level.addEntity(item);
+            pickup(item);
+        }
+        
+        if (keys.give_bomb.isDown) {
+            Building item = null;
+            item = new Bomb(pos.x, pos.y);
+            level.addEntity(item);
+            pickup(item);
+        }
+        
+        if (keys.add_slave.isDown && !keys.add_slave.wasDown) {
+        	level.addEntity(new RailDroid(pos.x, pos.y, team));
+        }
+        
+        
         if (!keys.fire.isDown && xa * xa + ya * ya != 0) {
             xAim *= 0.7;
             yAim *= 0.7;

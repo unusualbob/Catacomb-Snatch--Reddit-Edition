@@ -28,7 +28,7 @@ public class Button extends GuiComponent {
         this.x = x;
         this.y = y;
         this.w = 128;
-        this.h = 24;
+        this.h = 32;
         this.ix = buttonImageIndex % 2;
         this.iy = buttonImageIndex / 2;
     }

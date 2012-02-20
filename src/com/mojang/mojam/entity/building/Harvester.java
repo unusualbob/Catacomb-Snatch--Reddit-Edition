@@ -82,7 +82,11 @@ public class Harvester extends Building implements LootCollector {
                 level.addEntity(new SmokeAnimation(pos.x - 6 + random.nextInt(8) - random.nextInt(8), pos.y - 16, Art.fxSteam12, 30));
             }
         }
-    }
+		
+		if (health == 0) {
+		dropAllMoney();
+        }
+	}
 
     @Override
     public Bitmap getSprite() {
@@ -136,10 +140,6 @@ public class Harvester extends Building implements LootCollector {
             }
         } else {
             screen.blit(image, pos.x - image.w / 2, pos.y - image.h + 8);
-        }
-
-        if (health == 0) {
-            dropAllMoney();
         }
     }
 

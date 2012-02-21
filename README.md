@@ -1,11 +1,15 @@
 Catacomb Snatch - Reddit Edition
 ================================
 Project co-ordinator: RJackson
+
 Project moderators (accept/deny pull requests):
+
 * LD48
 * Moussekateer
 * RJackson
+* 
 Project contributors:
+
 * RJackson
 * LD48
 * Mikevin
@@ -23,16 +27,17 @@ Join the community working on the project in the #rCatacombSnatch channel on the
 
 Changes (from Mojangs source)
 =============================
+
 * Fixed crash on Harvester death.
 * Fixed score being applied to the wrong player.
 * Added "debug" hacks.
-** `1` - give yourself 500 moneys
-** `2` - give yourself a turret
-** `3` - give yourself a harvester
-** `4` - give yourself a bomb
-** `5` - spawn a slave 
-** `6` - increase team1 score
-** `7` - increase team2 score 
+  * `1` - give yourself 500 moneys
+  * `2` - give yourself a turret
+  * `3` - give yourself a harvester
+  * `4` - give yourself a bomb
+  * `5` - spawn a slave 
+  * `6` - increase team1 score
+  * `7` - increase team2 score 
 * Reduced multi-player latency issues.
 * Added 3 new levels, and having the played level randomly chosen.
 * Better menu visuals
@@ -47,48 +52,50 @@ Nothing final, just suggestions of things to do in the future - however ambitiou
 ### DISCUSSED
 #### APPROVED
 For approved to-be-implemented ideas (must be detailed, i.e. explain what "upgradable turrets" actually entails)
+
 * Loading maps from file
-** Load `%appdata%/Catacomb Snatch Reddit Edition/levels` contents.
-** Display a map-list when beginning a game (random being an option)
+  * Load `%appdata%/Catacomb Snatch Reddit Edition/levels` contents.
+  * Display a map-list when beginning a game (random being an option)
 
 #### REJECTED (& why)
 For rejected ideas, and an explanation why.
 
 ### UNDISCUSSED
+
 * 'Treasure' being a currency source, collected by rail droids (players can fight over something else)
-** Faster money gen than by killing mobs
-** "Luxuries" such as Turrets, Harvesters and Bombs being more expensive - thus requiring the farming of treasure to use.
-** Could still be the focus of the game if each map has plenty, they're slow to depleet and the winner is whomever has the most resources by the time they all run out.
+  * Faster money gen than by killing mobs
+  * "Luxuries" such as Turrets, Harvesters and Bombs being more expensive - thus requiring the farming of treasure to use.
+  * Could still be the focus of the game if each map has plenty, they're slow to depleet and the winner is whomever has the most resources by the time they all run out.
 
 * Upgradable buildings
-** Turret
-*** Increased range/damage
+  * Turret
+    * Increased range/damage
 
 * Game modes
-** Shoot 'em up
-*** Player gains exp per kill which progressively increases a players 'level'.
-*** Mobs become tougher as the players level increases - the players stats do not change.
-**** Higher HP?
-**** Higher dmg?
-**** Increased movespeed?
-**** Higher spawn-count?
+  * Shoot 'em up
+    * Player gains exp per kill which progressively increases a players 'level'.
+    * Mobs become tougher as the players level increases - the players stats do not change.
+      * Higher HP?
+      * Higher dmg?
+      * Increased movespeed?
+      * Higher spawn-count?
 
-** PVP / RTS focus
-*** Would require aforementioned treasure farming for currency
-*** Mobs could belong to each team, and need to be pushed to do gain and maintain control of resources (like Creeps in Dota 2)
+  * PVP / RTS focus
+    * Would require aforementioned treasure farming for currency
+    * Mobs could belong to each team, and need to be pushed to do gain and maintain control of resources (like Creeps in Dota 2)
 
-** Creative / Map editor
-*** Tile-based drag/drop map builder
-*** Single button to switch between 'edit mode' and 'play mode'
-*** Submit levels to a central repository.
-*** Load levels from "the cloud" - allow players to rate other players maps.
-*** No custom resources, just the tiles within the game - keep the gameplay mechanics consistent.
+  * Creative / Map editor
+    * Tile-based drag/drop map builder
+    * Single button to switch between 'edit mode' and 'play mode'
+    * Submit levels to a central repository.
+    * Load levels from "the cloud" - allow players to rate other players maps.
+    * No custom resources, just the tiles within the game - keep the gameplay mechanics consistent.
 
 * Different fog-of-war behaviour:
-** Player and players entites act as a "light source"
-** Map is constantly dark unless a teams "light source" is giving sight to an area.
-** Line-of-sight code could be utilised, not allowing players to see what's on the other side of a wall if they do not have line-of-sight.
+  * Player and players entites act as a "light source"
+  * Map is constantly dark unless a teams "light source" is giving sight to an area.
+  * Line-of-sight code could be utilised, not allowing players to see what's on the other side of a wall if they do not have line-of-sight.
 
 * Strings (button string too) coming from a file, instead of hard-coded.
-** Easy to edit
-** Easier to implement and update localisation.
+  * Easy to edit
+  * Easier to implement and update localisation.

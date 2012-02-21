@@ -31,8 +31,9 @@ public class TitleMenu extends GuiMenu {
         addButton(new Button(START_GAME_ID, 0, (gameWidth - 128) / 2, 180));
         addButton(new Button(HOST_GAME_ID, 2, (gameWidth - 128) / 2, 220));
         addButton(new Button(JOIN_GAME_ID, 3, (gameWidth - 128) / 2, 260));
-        addButton(new Button(EXIT_GAME_ID, 1, (gameWidth - 128) / 2, 340));
         addButton(new Button(HELP_ID, 5, (gameWidth - 128) / 2, 300));
+        addButton(new Button(EXIT_GAME_ID, 1, (gameWidth - 128) / 2, 340));
+        
     }
 
     public void render(Screen screen) {

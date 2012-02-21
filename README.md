@@ -2,16 +2,16 @@ Catacomb Snatch - Reddit Edition
 ================================
 Project co-ordinator: RJackson
 Project moderators (accept/deny pull requests):
-	LD48
-	Moussekateer
-	RJackson
+* LD48
+* Moussekateer
+* RJackson
 Project contributors:
-	RJackson
-	LD48
-	Mikevin
-	Taffaz
-	michael
-	(if you're not listed and you've made a commit to the project, let someone know if you want to be acreddited)
+* RJackson
+* LD48
+* Mikevin
+* Taffaz
+* michael
+* (if you're not listed and you've made a commit to the project, let someone know if you want to be acreddited)
 
 Catacomb Snatch is Mojang's game created in 60-hours as part of the Humble Bundle Mojam. The game was released along with its code at the end of the 60 hours, with no licensing or restrictions.  'Reddit Edition' is the continuation of Catacomb Snatches development based upon the original games source code, adding new features and fixing up errors and bugs within the game, by the community residing at http://reddit.com/r/CatacombSnatch
 

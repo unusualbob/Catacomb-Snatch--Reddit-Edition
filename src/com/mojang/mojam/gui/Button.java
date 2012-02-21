@@ -18,17 +18,20 @@ public class Button extends GuiComponent {
 
     private final int id;
 
+    private String text;
+    
     private int ix;
-
     private int iy;
+    
     private boolean performClick = false;
 
-    public Button(int id, int buttonImageIndex, int x, int y) {
+    public Button(int id, String buttonText, int buttonImageIndex, int x, int y) {
         this.id = id;
         this.x = x;
         this.y = y;
         this.w = 128;
         this.h = 32;
+        this.text = buttonText;
         this.ix = buttonImageIndex % 2;
         this.iy = buttonImageIndex / 2;
     }
@@ -67,8 +70,10 @@ public class Button extends GuiComponent {
 
         if (isPressed) {
             screen.blit(Art.buttons[ix][iy * 2 + 1], x, y);
+            Font.draw(screen, text, x+((w-Font.getStringWidth(text))/2), y+((h-Font.getStringHeight(text))/2)+3);
         } else {
             screen.blit(Art.buttons[ix][iy * 2 + 0], x, y);
+            Font.draw(screen, text, x+((w-Font.getStringWidth(text))/2), y+((h-Font.getStringHeight(text))/2));
         }
     }
 

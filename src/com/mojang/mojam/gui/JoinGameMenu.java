@@ -11,8 +11,8 @@ public class JoinGameMenu extends GuiMenu {
     public JoinGameMenu() {
         super();
 
-        joinButton = addButton(new Button(TitleMenu.PERFORM_JOIN_ID, 3, 100, 180));
-        addButton(new Button(TitleMenu.CANCEL_JOIN_ID, 4, 250, 180));
+        joinButton = addButton(new Button(TitleMenu.PERFORM_JOIN_ID, "Join", 0, 100, 180));
+        addButton(new Button(TitleMenu.CANCEL_JOIN_ID, "Cancel", 0, 250, 180));
     }
 
     @Override

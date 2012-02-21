@@ -15,7 +15,7 @@ public class WinMenu extends GuiMenu {
         this.winningPlayer = winningPlayer;
         this.gameWidth = gameWidth;
 
-        addButton(new Button(TitleMenu.RESTART_GAME_ID, 1, (gameWidth - 128) / 2, 200));
+        addButton(new Button(TitleMenu.RESTART_GAME_ID, "Restart", 0, (gameWidth - 128) / 2, 200));
     }
 
     public void render(Screen screen) {

@@ -10,7 +10,7 @@ public class HostingWaitMenu extends GuiMenu {
     public HostingWaitMenu() {
         super();
 
-        addButton(new Button(TitleMenu.CANCEL_JOIN_ID, 4, 250, 180));
+        addButton(new Button(TitleMenu.CANCEL_JOIN_ID, "Cancel",  0, 250, 180));
     }
 
     @Override

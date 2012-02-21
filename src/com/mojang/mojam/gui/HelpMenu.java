@@ -30,17 +30,17 @@ public class HelpMenu extends GuiMenu {
         Font.draw(screen, "-----", 10, 130);
         Font.draw(screen, "Turret (150 coins): Shoots baddies in general vicinity,", 10, 140);
         Font.draw(screen, "even while holding it.", 10, 150);
-        Font.draw(screen, "Collector  (300 coins): Sucks up coins within a large radius.", 10, 160);
-        Font.draw(screen, "Pick up the  collector to receive the coins.", 10, 170);
-        Font.draw(screen, "They can also be destroyed by enemies, so protect them!", 10, 180);
-        Font.draw(screen, "Bomb (500 coins): Used to destroy purple gemmed walls.", 10, 190);
-        Font.draw(screen, "Shoot the bomb or have turrets shoot it to detonate it.", 10, 200);
-        Font.draw(screen, "Track (10 coins to add, 15 coins to remove):", 10, 210);
-        Font.draw(screen, "Rail track for gathering batches Treasure.", 10, 220);
-        Font.draw(screen, "Rail-Droid  (50 coins): Carts can be bought by standing on", 10, 230);
-        Font.draw(screen, "the first section of track at your Base Camp. These will ", 10, 240);
-        Font.draw(screen, "travel along rails that you lay down and will collect", 10, 250);
-        Font.draw(screen, "treasure from the Treasure Trove at the center of the map.", 10, 260);
+        Font.draw(screen, "Collector  (300 coins): Sucks up coins within a large radius.", 10, 170);
+        Font.draw(screen, "Pick up the  collector to receive the coins.", 10, 180);
+        Font.draw(screen, "They can also be destroyed by enemies, so protect them!", 10, 190);
+        Font.draw(screen, "Bomb (500 coins): Used to destroy purple gemmed walls.", 10, 210);
+        Font.draw(screen, "Shoot the bomb or have turrets shoot it to detonate it.", 10, 220);
+        Font.draw(screen, "Track (10 coins to add, 15 coins to remove):", 10, 240);
+        Font.draw(screen, "Rail track for gathering batches Treasure.", 10, 250);
+        Font.draw(screen, "Rail-Droid  (50 coins): Carts can be bought by standing on", 10, 270);
+        Font.draw(screen, "the first section of track at your Base Camp. These will ", 10, 280);
+        Font.draw(screen, "travel along rails that you lay down and will collect", 10, 290);
+        Font.draw(screen, "treasure from the Treasure Trove at the center of the map.", 10, 300);
         
         
         super.render(screen);

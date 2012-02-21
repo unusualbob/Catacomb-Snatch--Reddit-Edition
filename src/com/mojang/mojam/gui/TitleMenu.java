@@ -15,6 +15,8 @@ public class TitleMenu extends GuiMenu {
     public static final int CANCEL_JOIN_ID = 1004;
     public static final int PERFORM_JOIN_ID = 1005;
     public static final int RESTART_GAME_ID = 1006;
+    public static final int HELP_ID = 1007;
+    
 
     // public static lol... ;)
     public static String ip = "";
@@ -26,10 +28,11 @@ public class TitleMenu extends GuiMenu {
         super();
         this.gameWidth = gameWidth;
 
-        addButton(new Button(START_GAME_ID, 0, (gameWidth - 128) / 2, 200));
-        addButton(new Button(HOST_GAME_ID, 2, (gameWidth - 128) / 2, 240));
-        addButton(new Button(JOIN_GAME_ID, 3, (gameWidth - 128) / 2, 280));
-        addButton(new Button(EXIT_GAME_ID, 1, (gameWidth - 128) / 2, 320));
+        addButton(new Button(START_GAME_ID, 0, (gameWidth - 128) / 2, 180));
+        addButton(new Button(HOST_GAME_ID, 2, (gameWidth - 128) / 2, 220));
+        addButton(new Button(JOIN_GAME_ID, 3, (gameWidth - 128) / 2, 260));
+        addButton(new Button(EXIT_GAME_ID, 1, (gameWidth - 128) / 2, 340));
+        addButton(new Button(HELP_ID, 5, (gameWidth - 128) / 2, 300));
     }
 
     public void render(Screen screen) {
@@ -40,7 +43,7 @@ public class TitleMenu extends GuiMenu {
 
         super.render(screen);
 
-        screen.blit(Art.lordLard[0][6], (gameWidth - 128) / 2 - 40, 190 + selectedItem * 40);
+        screen.blit(Art.lordLard[0][6], (gameWidth - 128) / 2 - 40, 180 + selectedItem * 40);
     }
 
     @Override
@@ -51,11 +54,11 @@ public class TitleMenu extends GuiMenu {
         if (e.getKeyCode() == KeyEvent.VK_UP) {
             selectedItem--;
             if (selectedItem < 0) {
-                selectedItem = 3;
+                selectedItem = 4;
             }
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             selectedItem++;
-            if (selectedItem > 3) {
+            if (selectedItem > 4) {
                 selectedItem = 0;
             }
         } else if (e.getKeyCode() == KeyEvent.VK_ENTER) {

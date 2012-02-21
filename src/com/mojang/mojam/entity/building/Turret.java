@@ -36,6 +36,59 @@ public class Turret extends Building {
 
     public void init() {
     }
+    
+    boolean checklos(int x1, int y1, int x2, int y2)
+    {
+    	//check if Entity.Bullet has LoS to closest Entity
+    	//temporarily has 'this' as parameter to canPass because canPass doesn't use parameter at this stage
+    	x1/=Tile.WIDTH;
+    	x2/=Tile.WIDTH;
+    	y1/=Tile.HEIGHT;
+    	y2/=Tile.HEIGHT;
+    	
+        int dx, dy, inx, iny, e;
+    	boolean re=true;
+    	Tile temp;
+         
+        dx = x2 - x1;
+        dy = y2 - y1;
+        inx = dx > 0 ? 1 : -1;
+        iny = dy > 0 ? 1 : -1;
+     
+        dx = java.lang.Math.abs(dx);
+        dy = java.lang.Math.abs(dy);
+         
+        if(dx >= dy) {
+            dy <<= 1;
+            e = dy - dx;
+            dx <<= 1;
+            while (x1 != x2) {
+    			temp = level.getTile(x1,y1);
+    			if(!temp.canPass(this))re=false;
+                if(e >= 0) {
+                    y1 += iny;
+                    e-= dx;
+                }
+                e += dy; x1 += inx;
+            }
+        } else {
+            dx <<= 1;
+            e = dx - dy;
+            dy <<= 1;
+            while (y1 != y2) {
+                temp = level.getTile(x1,y1);
+                if(!temp.canPass(this))re=false;
+                if(e >= 0) {
+                    x1 += inx;
+                    e -= dy;
+                }
+                e += dx; y1 += iny;
+            }
+        }
+        		temp = level.getTile(x1,y1);
+        		if(!temp.canPass(this))re=false;
+    return re;
+    }
 
     public void tick() {
         super.tick();
@@ -52,7 +105,8 @@ public class Turret extends Building {
             if ((e instanceof TreasurePile)) continue;
             if (!((Mob) e).isNotFriendOf(this)) continue;
             final double dist = e.pos.distSqr(pos);
-            if (dist < radiusSqr && dist < closestDist) {
+            if (dist < radiusSqr && dist < closestDist && checklos((int)pos.x,(int)pos.y,(int)e.pos.x,(int)e.pos.y)) {
+            	
                 closestDist = dist;
                 closest = e;
             }

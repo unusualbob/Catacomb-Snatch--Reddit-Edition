@@ -130,7 +130,7 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
     }
 
     private synchronized void createLevel() {
-        String randomLevel = "/levels/level" + (TurnSynchronizer.synchedRandom.nextInt(3) + 1) + ".bmp";
+        String randomLevel = "/levels/level" + (TurnSynchronizer.synchedRandom.nextInt(4) + 1) + ".bmp";
         try {
             level = Level.fromFile(randomLevel);
         } catch (Exception ex) {

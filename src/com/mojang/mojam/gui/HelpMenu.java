@@ -9,7 +9,7 @@ public class HelpMenu extends GuiMenu {
     public HelpMenu() {
         super();
 
-        addButton(new Button(TitleMenu.CANCEL_JOIN_ID, "Cancel", 0, 100, 10));
+        addButton(new Button(TitleMenu.CANCEL_JOIN_ID, "Back", 0, 10, 320));
     }
 
     @Override

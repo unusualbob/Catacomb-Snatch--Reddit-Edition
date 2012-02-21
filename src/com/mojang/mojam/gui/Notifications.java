@@ -34,11 +34,11 @@ public class Notifications {
 
     public void add(String message, int life) {
         notes.add(new Note(message, life));
-        System.out.println(notes.size());
+        System.out.println("Notes size:"+notes.size());
     }
 
     public void render(Screen screen) {
-        Iterator it = notes.iterator();
+        Iterator<Note> it = notes.iterator();
         int i = 0;
         while (it.hasNext()) {
             i += 1;

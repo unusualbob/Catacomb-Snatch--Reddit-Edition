@@ -3,3 +3,18 @@ $ cat .gitignore
 bin/*
 .classpath
 .project
+
+# IntelliJ Ignores
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# NetBeans Ignores
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml

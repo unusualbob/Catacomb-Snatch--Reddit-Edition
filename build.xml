@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<project name="Catacomb-Snatch--Reddit-Edition" default="run" basedir=".">
+
+    <!-- Project variables -->
+    <property name="main.class" value="com.mojang.mojam.MojamComponent"/>
+
+    <!-- Directories -->
+    <property name="lib.dir" value="lib"/>
+    <property name="res.dir" value="res"/>
+    <property name="src.dir" value="src"/>
+    <property name="bin.dir" value="bin"/>
+
+    <!-- Classpath -->
+    <path id="catacomb.snatch.classpath">
+        <pathelement location="${bin.dir}/classes"/>
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+
+    <!-- Targets -->
+    <target name="compile" description="Compiles all of the source code">
+        <mkdir dir="${bin.dir}/classes"/>
+        <javac srcdir="${src.dir}" destdir="${bin.dir}/classes" debug="on" optimize="on" deprecation="on" includeantruntime="no">
+            <classpath refid="catacomb.snatch.classpath"/>
+            <compilerarg value="-Xlint"/>
+        </javac>
+        <copy todir="${bin.dir}/classes">
+            <fileset dir="${res.dir}"/>
+        </copy>
+    </target>
+
+    <target name="run" depends="compile" description="Run the application with debugging on">
+        <java classname="${main.class}" classpathref="catacomb.snatch.classpath" fork="true">
+            <jvmarg line="-Xdebug -Xrunjdwp:transport=dt_socket,address=9000,server=y,suspend=n"/>
+        </java>
+    </target>
+
+    <target name="clean" description="Deletes all class files">
+        <delete dir="${bin.dir}"/>
+    </target>
+
+</project>

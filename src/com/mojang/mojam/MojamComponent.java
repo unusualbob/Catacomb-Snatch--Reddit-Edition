@@ -50,12 +50,13 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
     public TurnSynchronizer synchronizer;
     private PacketLink packetLink;
     private ServerSocket serverSocket;
-    private boolean isMultiplayer;
+    private static boolean isMultiplayer;
     private boolean isServer;
     private int localId;
     private Thread hostThread;
     public static SoundPlayer soundPlayer;
-
+    private static boolean bPaused;
+    private boolean bPauseMenuUp;
     private int createServerState = 0;
 
     public MojamComponent() {
@@ -113,6 +114,27 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
     public void stop() {
         running = false;
         soundPlayer.shutdown();
+    }
+    
+    public static void togglePause() {
+    	//If single player then pause the game and show pause menu.
+    	if (!isMultiplayer)
+    	{
+    		bPaused = !bPaused;
+    	}
+//		Unusualbob:
+//		Multiplayer we dont actually want to pause, maybe just show options menu or something?
+//		If we want to pause for both clients it will work, but we need to polish the pause system
+//		to include a check to make sure the other player is still there and maybe chat.
+//    	else
+//    	{
+//    		Can't use this unless addMenu is static and I can't figure out how to handle the 'this' part of it.
+//    		if (!bPauseMenuUp)
+//    		{
+//    			addMenu(new PauseMenu(GAME_WIDTH, GAME_HEIGHT));
+//    			bPauseMenuUp = true;
+//    		}
+//    	}
     }
 
     private void init() {
@@ -177,6 +199,7 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
         int max = 0;
 
         while (running) {
+        	
             if (!this.hasFocus()) {
                 keys.release();
             }
@@ -254,7 +277,8 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
                 fps = frames;
                 frames = 0;
             }
-        }
+    	}
+        
     }
 
     private synchronized void render(Graphics g) {
@@ -299,72 +323,84 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
     }
 
     private void tick() {
-        if (level != null) {
-            if (level.player1Score >= Level.TARGET_SCORE) {
-                addMenu(new WinMenu(GAME_WIDTH, GAME_HEIGHT, 1));
-                level = null;
-                return;
-            }
-            if (level.player2Score >= Level.TARGET_SCORE) {
-                addMenu(new WinMenu(GAME_WIDTH, GAME_HEIGHT, 2));
-                level = null;
-                return;
-            }
-        }
-        if (packetLink != null) {
-            packetLink.tick();
-        }
-        if (level != null) {
-            if (synchronizer.preTurn()) {
-                synchronizer.postTurn();
-                for (int index = 0; index < keys.getAll().size(); index++) {
-                    Keys.Key key = keys.getAll().get(index);
-                    boolean nextState = key.nextState;
-                    if (key.isDown != nextState) {
-                        synchronizer.addCommand(new ChangeKeyCommand(index, nextState));
-                    }
-                }
-                keys.tick();
-                for (Keys skeys : synchedKeys) {
-                    skeys.tick();
-                }
-                level.tick();
-            }
-        }
-        mouseButtons.setPosition(getMousePosition());
-        if (!menuStack.isEmpty()) {
-            menuStack.peek().tick(mouseButtons);
-        }
-        if (mouseMoved) {
-            mouseMoved = false;
-            mouseHideTime = 0;
-            if (mouseHidden) {
-                mouseHidden = false;
-                setCursor(null);
-            }
-        }
-        if (mouseHideTime < 60) {
-            mouseHideTime++;
-            if (mouseHideTime == 60) {
-                setCursor(emptyCursor);
-                mouseHidden = true;
-            }
-        }
-        mouseButtons.tick();
-
-        if (createServerState == 1) {
-            createServerState = 2;
-
-            synchronizer = new TurnSynchronizer(MojamComponent.this, packetLink, localId, 2);
-
-            clearMenus();
-            createLevel();
-
-            synchronizer.setStarted(true);
-            packetLink.sendPacket(new StartGamePacket(TurnSynchronizer.synchedSeed));
-            packetLink.setPacketListener(MojamComponent.this);
-
-        }
+    	if (!bPaused)
+    	{
+	        if (level != null) {
+	            if (level.player1Score >= Level.TARGET_SCORE) {
+	                addMenu(new WinMenu(GAME_WIDTH, GAME_HEIGHT, 1));
+	                level = null;
+	                return;
+	            }
+	            if (level.player2Score >= Level.TARGET_SCORE) {
+	                addMenu(new WinMenu(GAME_WIDTH, GAME_HEIGHT, 2));
+	                level = null;
+	                return;
+	            }
+	        }
+	        if (packetLink != null) {
+	            packetLink.tick();
+	        }
+	        if (level != null) {
+	            if (synchronizer.preTurn()) {
+	                synchronizer.postTurn();
+	                for (int index = 0; index < keys.getAll().size(); index++) {
+	                    Keys.Key key = keys.getAll().get(index);
+	                    boolean nextState = key.nextState;
+	                    if (key.isDown != nextState) {
+	                        synchronizer.addCommand(new ChangeKeyCommand(index, nextState));
+	                    }
+	                }
+	                keys.tick();
+	                for (Keys skeys : synchedKeys) {
+	                    skeys.tick();
+	                }
+	                level.tick();
+	            }
+	        }
+    	}
+    	else
+    	{
+    		//System.out.println("Paused");
+    		if (!bPauseMenuUp)
+    		{
+    			addMenu(new PauseMenu(GAME_WIDTH, GAME_HEIGHT));
+    			bPauseMenuUp = true;
+    		}
+    	}
+	        mouseButtons.setPosition(getMousePosition());
+	        if (!menuStack.isEmpty()) {
+	            menuStack.peek().tick(mouseButtons);
+	        }
+	        if (mouseMoved) {
+	            mouseMoved = false;
+	            mouseHideTime = 0;
+	            if (mouseHidden) {
+	                mouseHidden = false;
+	                setCursor(null);
+	            }
+	        }
+	        if (mouseHideTime < 60) {
+	            mouseHideTime++;
+	            if (mouseHideTime == 60) {
+	                setCursor(emptyCursor);
+	                mouseHidden = true;
+	            }
+	        }
+	        mouseButtons.tick();
+	
+	        if (createServerState == 1) {
+	            createServerState = 2;
+	
+	            synchronizer = new TurnSynchronizer(MojamComponent.this, packetLink, localId, 2);
+	
+	            clearMenus();
+	            createLevel();
+	
+	            synchronizer.setStarted(true);
+	            packetLink.sendPacket(new StartGamePacket(TurnSynchronizer.synchedSeed));
+	            packetLink.setPacketListener(MojamComponent.this);
+	
+	        }
     }
 
     public static void main(String[] args) {
@@ -493,7 +529,20 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
         } else if (button.getId() == TitleMenu.HELP_ID) {
         	addMenu(new HelpMenu());
 
-        }
+        } else if (button.getId() == PauseMenu.RESUME_LEVEL_ID) {
+        	bPaused = false;
+        	clearMenus();
+        	bPauseMenuUp = false;
+    	} else if (button.getId() == PauseMenu.EXIT_LEVEL_ID) {
+            bPaused = false;
+            bPauseMenuUp = false;
+            level = null;
+            clearMenus();
+            synchronizer = null;
+            TitleMenu menu = new TitleMenu(GAME_WIDTH, GAME_HEIGHT);
+            addMenu(menu);
+    	}
+        
     }
 
     private void clearMenus() {

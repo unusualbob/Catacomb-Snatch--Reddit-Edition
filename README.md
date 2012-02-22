@@ -7,7 +7,7 @@ Project moderators (accept/deny pull requests):
 * LD48
 * Moussekateer
 * RJackson
-* 
+
 Project contributors:
 
 * RJackson
@@ -15,15 +15,17 @@ Project contributors:
 * Mikevin
 * Taffaz
 * michael
+* unusualbob
+* bvc
 * (if you're not listed and you've made a commit to the project, let someone know if you want to be acreddited)
 
 Catacomb Snatch is Mojang's game created in 60-hours as part of the Humble Bundle Mojam. The game was released along with its code at the end of the 60 hours, with no licensing or restrictions.  'Reddit Edition' is the continuation of Catacomb Snatches development based upon the original games source code, adding new features and fixing up errors and bugs within the game, by the community residing at http://reddit.com/r/CatacombSnatch
 
-Getting involved in the project is easy:  Just fork RJacksonm1/Catacomb-Snatch--Reddit-Edition, make your changes and submit a pull request with those changes.
+Getting involved in the project is easy:  Just fork rCatacombSnatch/Catacomb-Snatch--Reddit-Edition, make your changes and submit a pull request with those changes.
 
 The project is currently in its infancy and, as such, very open to discussion regarding its focus - i.e. what our objective is by continuing the games development.
 
-Join the community working on the project in the #rCatacombSnatch channel on the irc.esper.net.
+Join the community working on the project in the #rCatacombSnatch IRC channel on the irc.esper.net.
 
 Changes (from Mojangs source)
 =============================
@@ -45,6 +47,8 @@ Changes (from Mojangs source)
 * Displayed IP address on the waiting screen for multi-player hosts.
 * Turret now has line-of-sight support, thereby not being able to shoot at targets if a wall is in between the turret and the target.
 * Added a help menu
+* Modified buttons - instead of just being a graphic (that contains the related text, they are now just a background graphic with text rendered on top.
+* Implemented the ability to pause the game (escape key).
 
 Ideas
 =====
@@ -73,8 +77,8 @@ For rejected ideas, and an explanation why.
 
 * Game modes
   * Shoot 'em up
-    * Player gains exp per kill which progressively increases a players 'level'.
-    * Mobs become tougher as the players level increases - the players stats do not change.
+	  * Player gains exp per kill which progressively increases a players 'level'.
+	  * Mobs become tougher as the players level increases - the players stats do not change.
       * Higher HP?
       * Higher dmg?
       * Increased movespeed?

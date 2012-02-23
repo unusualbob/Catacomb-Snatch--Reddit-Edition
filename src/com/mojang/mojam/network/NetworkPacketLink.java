@@ -105,7 +105,17 @@ public class NetworkPacketLink implements PacketLink {
             outgoing.add(packet);
         }
     }
-
+    
+    public void sendPacketNow(Packet packet) {
+    	if (isQuitting) {
+    		return;
+    	}
+    	synchronized (writeLock) {
+    		outgoing.add(packet);
+    	}
+    	while (outgoing.size() > 0 && isRunning && !isQuitting) ;
+    }
+    
     public boolean isDying() {
     	return isQuitting;
     }

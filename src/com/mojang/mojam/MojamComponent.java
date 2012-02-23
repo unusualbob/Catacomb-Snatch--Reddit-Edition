@@ -469,7 +469,9 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
     		//}
     		if (!isServer) {
         		if (menuStack.peek() instanceof JoinWaitMenu) {
-        			((JoinWaitMenu) menuStack.peek()).numPlayers = 0;
+        			JoinWaitMenu menu = (JoinWaitMenu) menuStack.peek();
+        			menu.numPlayers = 0;
+        			menu.message = ((PartPacket) packet).getMessage();
         			if (packetLink != null) {
         				packetLink.sendPacket(new PartPacket());
         				packetLink = null;
@@ -536,12 +538,18 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
                                     }
                                     fail = false;
 
-                                    server_packetLinks.add(new NetworkPacketLink(socket));
-                                    numPlayers++;
-                                    hostMenu.numPlayers = numPlayers;
-                                    
-                                    packetLink = new MultiplePacketLink(server_packetLinks);
-                                    packetLink.sendPacket(new JoinPacket(numPlayers));
+                                    NetworkPacketLink link = new NetworkPacketLink(socket);
+                                    if (server_packetLinks.size() < (4 - 1)) {
+	                                    server_packetLinks.add(link);
+	                                    numPlayers++;
+	                                    hostMenu.numPlayers = numPlayers;
+	                                    
+	                                    packetLink = new MultiplePacketLink(server_packetLinks);
+	                                    packetLink.sendPacket(new JoinPacket(numPlayers));
+	                                } else {
+	                                	link.sendPacketNow(new PartPacket("Game is full"));
+	                                	link.disconnect();
+                                	}
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();

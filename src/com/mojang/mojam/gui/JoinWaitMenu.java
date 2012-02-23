@@ -6,6 +6,7 @@ import com.mojang.mojam.screen.Screen;
 
 public class JoinWaitMenu extends GuiMenu {
 	public int numPlayers = 1;
+	public String message = "";
 	
     public JoinWaitMenu() {
         super();
@@ -18,9 +19,12 @@ public class JoinWaitMenu extends GuiMenu {
         screen.clear(0);
         
         String message = "Waiting for host to start...";
-        if (numPlayers <= 0)
-        	message = "Server dropped out, connection lost.";
-        else if (numPlayers < 4)
+        if (numPlayers <= 0) {
+        	if (this.message == "")
+        		message = "Server dropped out, connection lost.";
+        	else
+        		message = this.message;
+        } else if (numPlayers < 4)
         	message = "Waiting for clients to join...";
     	Font.draw(screen, message, 100, 100);
         

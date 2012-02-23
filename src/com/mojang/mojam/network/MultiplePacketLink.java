@@ -67,4 +67,19 @@ public class MultiplePacketLink implements PacketLink {
 		}
 	}
 
+	@Override
+	public boolean connectionDropped() {
+		for (int i = 0; i < packetLinks.length; i++) {
+			if (packetLinks[i].connectionDropped()) return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void disconnect() {
+		for (int i = 0; i < packetLinks.length; i++) {
+			packetLinks[i].disconnect();
+		}
+	}
+
 }

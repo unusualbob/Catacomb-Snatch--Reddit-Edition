@@ -359,14 +359,12 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
 	        if (packetLink != null) {
 	            packetLink.tick();
 	            
-	            NetworkPacketLink tmp = (NetworkPacketLink) packetLink;
-	            if (tmp != null)
-	            {
-	            	if (tmp.bConnectionDropped)
-	            	{
-	            		gameDisconnect();
-	                    return;
-	            	}
+	            if (level != null) {
+	            	if (packetLink.connectionDropped())
+		            {
+		            	gameDisconnect();
+		                return;
+		            }
 	            }
 	            
 	        }
@@ -505,7 +503,11 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		packetLink = null;
+		if (packetLink != null) {
+			//packetLink.sendPacket(new PartPacket());
+			packetLink.disconnect();
+			packetLink = null;
+		}
 		clearMenus();
     	bPaused = false;
     	bPauseMenuUp = false;
@@ -555,8 +557,7 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
                                     }
                                     for (int i = 0; i < server_packetLinks.size(); i++) {
                                     	NetworkPacketLink l = (NetworkPacketLink) server_packetLinks.get(i);
-                                    	if (l.isDying()) l.disconnect();
-                                    	else if (!l.isDisconnected()) continue;
+                                    	if (!l.connectionDropped()) continue;
 
                                     	server_packetLinks.remove(i); i--;
                                     	numPlayers--;
@@ -572,6 +573,7 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
 
                                     NetworkPacketLink link = new NetworkPacketLink(socket);
                                     if (server_packetLinks.size() < (4 - 1)) {
+                                    	link.setPacketListener(new AutoKillPacketListener(link));
 	                                    server_packetLinks.add(link);
 	                                    numPlayers++;
 	                                    hostMenu.numPlayers = numPlayers;
@@ -586,11 +588,9 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                            if (fail) {
-                                try {
-                                    serverSocket.close();
-                                } catch (IOException e) {
-                                }
+                            try {
+                                serverSocket.close();
+                            } catch (IOException e) {
                             }
                         };
                     };

@@ -27,7 +27,7 @@ public class NetworkPacketLink implements PacketLink {
     private boolean isRunning = true;
     private boolean isQuitting = false;
     private boolean isDisconnected = false;
-    public boolean bConnectionDropped;
+    private boolean bConnectionDropped;
 
     private PacketListener packetListener;
 
@@ -75,9 +75,6 @@ public class NetworkPacketLink implements PacketLink {
                     }
                 } catch (Exception e) {
                 }
-                if (isQuitting) {
-                	die();
-                }
             }
         };
 
@@ -89,9 +86,6 @@ public class NetworkPacketLink implements PacketLink {
         int max = 1000;
         while (!incoming.isEmpty() && max-- >= 0) {
             Packet packet = incoming.remove(0);
-            if (packet instanceof PartPacket) {
-            	isQuitting = true;
-            }
             if (packetListener != null) {
                 packet.handle(packetListener);
             }
@@ -117,18 +111,9 @@ public class NetworkPacketLink implements PacketLink {
     	while (outgoing.size() > 0 && isRunning && !isQuitting) ;
     }
     
-    public boolean isDying() {
-    	return isQuitting;
-    }
-    
-    public boolean isDisconnected() {
-    	return isDisconnected;
-    }
-    
     public void disconnect() {
     	isRunning = false;
-    	while (readThread.isAlive()) ;
-    	while (writeThread.isAlive()) ;
+    	die();
     }
     
     private boolean readTick() {
@@ -176,6 +161,7 @@ public class NetworkPacketLink implements PacketLink {
     }
 
     private void die() {
+    	bConnectionDropped = true;
     	isDisconnected = true;
     	try {
     		socket.close();
@@ -196,5 +182,10 @@ public class NetworkPacketLink implements PacketLink {
     public void sendStartPacket(StartGamePacket startGamePacket) {
     	sendPacket(startGamePacket);
     }
+
+	@Override
+	public boolean connectionDropped() {
+		return bConnectionDropped;
+	}
 
 }

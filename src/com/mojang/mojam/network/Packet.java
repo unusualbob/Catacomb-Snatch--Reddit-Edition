@@ -1,6 +1,7 @@
 package com.mojang.mojam.network;
 
 import java.io.*;
+import java.net.SocketException;
 import java.util.*;
 
 import com.mojang.mojam.network.packet.*;
@@ -54,6 +55,10 @@ public abstract class Packet {
         } catch (EOFException e) {
             // reached end of stream
             System.out.println("Reached end of stream");
+            return null;
+        } catch (SocketException e) {
+            // reached end of stream
+            //System.out.println("Socket Dropped");
             return null;
         }
 

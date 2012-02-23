@@ -24,6 +24,7 @@ public class NetworkPacketLink implements PacketLink {
     private boolean isRunning = true;
     private boolean isQuitting = false;
     private boolean isDisconnected = false;
+    public boolean bConnectionDropped;
 
     private PacketListener packetListener;
 
@@ -107,6 +108,11 @@ public class NetworkPacketLink implements PacketLink {
                     incoming.add(packet);
                 }
                 didSomething = true;
+            }
+            else
+            {
+            	if (!bConnectionDropped)
+            	bConnectionDropped = true;
             }
         } catch (Exception e) {
             if (!isDisconnected) handleException(e);

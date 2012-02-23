@@ -358,6 +358,17 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
 	        }
 	        if (packetLink != null) {
 	            packetLink.tick();
+	            
+	            NetworkPacketLink tmp = (NetworkPacketLink) packetLink;
+	            if (tmp != null)
+	            {
+	            	if (tmp.bConnectionDropped)
+	            	{
+	            		gameDisconnect();
+	                    return;
+	            	}
+	            }
+	            
 	        }
 	        if (level != null) {
 	            if (synchronizer.preTurn()) {
@@ -479,6 +490,27 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
         		}
     		}
         }
+    }
+    
+    public void gameDisconnect()
+    {
+		System.out.println("Socket connection lost!");
+		try
+		{
+			if (serverSocket != null)
+			serverSocket.close();
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		packetLink = null;
+		clearMenus();
+    	bPaused = false;
+    	bPauseMenuUp = false;
+    	addMenu(new DisconnectMenu(GAME_WIDTH, GAME_HEIGHT));
+        level = null;
     }
 
     public void buttonPressed(Button button) {

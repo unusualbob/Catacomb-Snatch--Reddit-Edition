@@ -42,10 +42,9 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
     private int mouseHideTime = 0;
     public MouseButtons mouseButtons = new MouseButtons();
     public Keys keys = new Keys();
-    public Keys[] synchedKeys = {
-            new Keys(), new Keys()
-    };
-    public Player[] players = new Player[2];
+    public Keys[] synchedKeys;
+    public Player[] players;
+    private int numPlayers = 1;
     public Player player;
     public TurnSynchronizer synchronizer;
     private PacketLink packetLink;
@@ -153,6 +152,9 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
 
     private synchronized void createLevel() {
         String randomLevel = "/levels/level" + (TurnSynchronizer.synchedRandom.nextInt(4) + 1) + ".bmp";
+        if (numPlayers >= 3)
+        	randomLevel = "/levels/4/level" + (TurnSynchronizer.synchedRandom.nextInt(1) + 1) + ".bmp";
+        
         try {
             level = Level.fromFile(randomLevel);
         } catch (Exception ex) {
@@ -160,6 +162,12 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
         }
 
         level.init();
+        
+        synchedKeys = new Keys[numPlayers];
+        for (int i = 0; i < numPlayers; i++) {
+        	synchedKeys[i] = new Keys();
+        };
+        players = new Player[numPlayers];
 
         players[0] = new Player(synchedKeys[0], level.width * Tile.WIDTH / 2 - 16, (level.height - 5 - 1) * Tile.HEIGHT - 16, Team.Team1);
         players[0].setFacing(4);
@@ -170,6 +178,20 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
 //            players[1] = new Player(synchedKeys[1], 10, 10);
             level.addEntity(players[1]);
             level.addEntity(new Base(32 * Tile.WIDTH - 20, 32 * Tile.WIDTH - 20, Team.Team2));
+            
+            if (numPlayers >= 3) {
+            	players[2] = new Player(synchedKeys[2], 7 * Tile.WIDTH - 16, level.height * Tile.HEIGHT / 2 + 16, Team.Team3);
+            	players[2].setFacing(6);
+            	level.addEntity(players[2]);
+            	level.addEntity(new Base(32 * Tile.WIDTH - 20, 32 * Tile.WIDTH - 20, Team.Team3));
+            	
+            	if (numPlayers >= 4) {
+            		players[3] = new Player(synchedKeys[3], (level.width - 5 - 1) * Tile.WIDTH - 16, level.height * Tile.HEIGHT / 2 + 16, Team.Team4);
+            		players[3].setFacing(2);
+            		level.addEntity(players[3]);
+            		level.addEntity(new Base(7 * Tile.WIDTH, 34 * Tile.WIDTH, Team.Team4));
+            	}
+            }
         }
         player = players[localId];
         player.setCanSee(true);
@@ -326,16 +348,13 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
     	if (!bPaused)
     	{
 	        if (level != null) {
-	            if (level.player1Score >= Level.TARGET_SCORE) {
-	                addMenu(new WinMenu(GAME_WIDTH, GAME_HEIGHT, 1));
-	                level = null;
-	                return;
-	            }
-	            if (level.player2Score >= Level.TARGET_SCORE) {
-	                addMenu(new WinMenu(GAME_WIDTH, GAME_HEIGHT, 2));
-	                level = null;
-	                return;
-	            }
+	        	for (int i = 0; i < level.numPlayers; i++) {
+	        		if (level.playerScores[i] >= Level.TARGET_SCORE) {
+	        			addMenu(new WinMenu(GAME_WIDTH, GAME_HEIGHT, i+1));
+	        			level = null;
+	        			return;
+	        		}
+	        	}
 	        }
 	        if (packetLink != null) {
 	            packetLink.tick();
@@ -391,13 +410,13 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
 	        if (createServerState == 1) {
 	            createServerState = 2;
 	
-	            synchronizer = new TurnSynchronizer(MojamComponent.this, packetLink, localId, 2);
+	            synchronizer = new TurnSynchronizer(MojamComponent.this, packetLink, localId, numPlayers);
 	
 	            clearMenus();
 	            createLevel();
 	
 	            synchronizer.setStarted(true);
-	            packetLink.sendPacket(new StartGamePacket(TurnSynchronizer.synchedSeed));
+	            packetLink.sendStartPacket(new StartGamePacket(TurnSynchronizer.synchedSeed, numPlayers, 1));
 	            packetLink.setPacketListener(MojamComponent.this);
 	
 	        }
@@ -428,11 +447,35 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
     public void handle(Packet packet) {
         if (packet instanceof StartGamePacket) {
             if (!isServer) {
-                synchronizer.onStartGamePacket((StartGamePacket) packet);
+            	menuStack.clear();
+            	StartGamePacket tmp = (StartGamePacket) packet;
+            	synchronizer.onStartGamePacket(tmp);
+            	numPlayers = tmp.getNumPlayers();
+            	localId = tmp.getLocalId();
                 createLevel();
             }
         } else if (packet instanceof TurnPacket) {
-            synchronizer.onTurnPacket((TurnPacket) packet);
+        	TurnPacket tmp = (TurnPacket) packet;
+        	if (isServer)
+        		((MultiplePacketLink) packetLink).sendPacketExcept(packet, tmp.getPlayerId());
+        	synchronizer.onTurnPacket(tmp);
+        } else if (packet instanceof JoinPacket) {
+        	if (menuStack.peek() instanceof JoinWaitMenu) {
+        		((JoinWaitMenu) menuStack.peek()).numPlayers = ((JoinPacket) packet).getNumPlayers();
+        	}
+        } else if (packet instanceof PartPacket) {
+    		//if (isServer) {
+    		//			//Hosting thread deals with dead connections, PartPacket sets a connection's isQuitting = true
+    		//}
+    		if (!isServer) {
+        		if (menuStack.peek() instanceof JoinWaitMenu) {
+        			((JoinWaitMenu) menuStack.peek()).numPlayers = 0;
+        			if (packetLink != null) {
+        				packetLink.sendPacket(new PartPacket());
+        				packetLink = null;
+        			}
+        		}
+    		}
         }
     }
 
@@ -453,7 +496,8 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
 
             createLevel();
         } else if (button.getId() == TitleMenu.HOST_GAME_ID) {
-            addMenu(new HostingWaitMenu());
+        	final HostingWaitMenu hostMenu = new HostingWaitMenu();
+        	addMenu(hostMenu);
             isMultiplayer = true;
             isServer = true;
             try {
@@ -466,6 +510,7 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
 
                         public void run() {
                             boolean fail = true;
+                            LinkedList<PacketLink> server_packetLinks = new LinkedList<PacketLink>();
                             try {
                                 while (!isInterrupted()) {
                                     Socket socket = null;
@@ -474,16 +519,29 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
                                     } catch (SocketTimeoutException e) {
 
                                     }
+                                    for (int i = 0; i < server_packetLinks.size(); i++) {
+                                    	NetworkPacketLink l = (NetworkPacketLink) server_packetLinks.get(i);
+                                    	if (l.isDying()) l.disconnect();
+                                    	else if (!l.isDisconnected()) continue;
+
+                                    	server_packetLinks.remove(i); i--;
+                                    	numPlayers--;
+                                    	packetLink = new MultiplePacketLink(server_packetLinks);
+                                    	hostMenu.numPlayers = numPlayers;
+                                    	packetLink.sendPacket(new JoinPacket(numPlayers));
+                                    }
                                     if (socket == null) {
                                         System.out.println("Socket is null");
                                         continue;
                                     }
                                     fail = false;
 
-                                    packetLink = new NetworkPacketLink(socket);
-
-                                    createServerState = 1;
-                                    break;
+                                    server_packetLinks.add(new NetworkPacketLink(socket));
+                                    numPlayers++;
+                                    hostMenu.numPlayers = numPlayers;
+                                    
+                                    packetLink = new MultiplePacketLink(server_packetLinks);
+                                    packetLink.sendPacket(new JoinPacket(numPlayers));
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -509,8 +567,18 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
                 hostThread.interrupt();
                 hostThread = null;
             }
+            if (packetLink != null) {
+            	packetLink.sendPacket(new PartPacket());
+            	packetLink = null;
+            }
+        } else if (button.getId() == TitleMenu.START_HOST_ID) {
+        	if (hostThread != null) {
+        		hostThread.interrupt();
+        	}
+        	createServerState = 1;
         } else if (button.getId() == TitleMenu.PERFORM_JOIN_ID) {
-            menuStack.clear();
+        	popMenu();
+        	addMenu(new JoinWaitMenu());
             isMultiplayer = true;
             isServer = false;
 

@@ -4,6 +4,9 @@ import java.io.*;
 import java.net.Socket;
 import java.util.*;
 
+import com.mojang.mojam.network.packet.PartPacket;
+import com.mojang.mojam.network.packet.StartGamePacket;
+
 public class NetworkPacketLink implements PacketLink {
 
     private static final int SEND_BUFFER_SIZE = 1024 * 5;
@@ -71,6 +74,9 @@ public class NetworkPacketLink implements PacketLink {
                     }
                 } catch (Exception e) {
                 }
+                if (isQuitting) {
+                	die();
+                }
             }
         };
 
@@ -82,6 +88,9 @@ public class NetworkPacketLink implements PacketLink {
         int max = 1000;
         while (!incoming.isEmpty() && max-- >= 0) {
             Packet packet = incoming.remove(0);
+            if (packet instanceof PartPacket) {
+            	isQuitting = true;
+            }
             if (packetListener != null) {
                 packet.handle(packetListener);
             }
@@ -97,6 +106,20 @@ public class NetworkPacketLink implements PacketLink {
         }
     }
 
+    public boolean isDying() {
+    	return isQuitting;
+    }
+    
+    public boolean isDisconnected() {
+    	return isDisconnected;
+    }
+    
+    public void disconnect() {
+    	isRunning = false;
+    	while (readThread.isAlive()) ;
+    	while (writeThread.isAlive()) ;
+    }
+    
     private boolean readTick() {
         boolean didSomething = false;
         try {
@@ -124,6 +147,9 @@ public class NetworkPacketLink implements PacketLink {
                     packet = outgoing.remove(0);
                 }
                 Packet.writePacket(packet, outputStream);
+                if (packet instanceof PartPacket) {
+                	isQuitting = true; isRunning = false;
+                }
                 didSomething = true;
             }
         } catch (Exception e) {
@@ -133,17 +159,26 @@ public class NetworkPacketLink implements PacketLink {
         return didSomething;
     }
 
+    private void die() {
+    	isDisconnected = true;
+    	try {
+    		socket.close();
+    	} catch (IOException e1) {
+    	}
+    }
+    
     private void handleException(Exception e) {
         e.printStackTrace();
-        isDisconnected = true;
-        try {
-            socket.close();
-        } catch (IOException e1) {
-        }
+        die();
     }
 
     public void setPacketListener(PacketListener packetListener) {
         this.packetListener = packetListener;
+    }
+
+    @Override
+    public void sendStartPacket(StartGamePacket startGamePacket) {
+    	sendPacket(startGamePacket);
     }
 
 }

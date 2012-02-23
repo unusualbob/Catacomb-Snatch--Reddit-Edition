@@ -41,8 +41,8 @@ public class Level {
     private boolean seen[];
     final int[] neighbourOffsets;
 
-    public int player1Score = 0;
-    public int player2Score = 0;
+    public int numPlayers = 2;
+    public int playerScores[];
 
     @SuppressWarnings("unchecked")
     public Level(int width, int height) {
@@ -83,9 +83,15 @@ public class Level {
         int w = bufferedImage.getWidth() + 16;
         int h = bufferedImage.getHeight() + 16;
 
+        Level l = new Level(h, w);
+        if (path.startsWith("/levels/4/")) {
+        	l.numPlayers = 4;
+        }
+        
         int[] rgbs = new int[w * h];
         Arrays.fill(rgbs, 0xffA8A800);
 
+        //base collision boxes (well, actually sets of unpassable tiles)
         for (int y = 0 + 4; y < h - 4; y++) {
             for (int x = 31 - 3; x < 32 + 3; x++) {
                 rgbs[x + y * w] = 0xff888800;
@@ -96,10 +102,20 @@ public class Level {
                 rgbs[x + y * w] = 0xffA8A800;
             }
         }
+        if (l.numPlayers >= 3) {
+        	for (int y = 32 - 3; y < 33 + 3; y++) {
+        		for (int x = 0 + 4; x < h - 4; x++) {
+        			rgbs[x + y * w] = 0xff888800;
+        		}
+        	}
+        	for (int y = 32 - 1; y < 33 + 1; y++) {
+        		for (int x = 0 + 5; x < h - 5; x++) {
+        			rgbs[x + y * w] = 0xffA8A800;
+        		}
+        	}
+        }
 
         bufferedImage.getRGB(0, 0, w - 16, h - 16, rgbs, 8 + 8 * w, w);
-
-        Level l = new Level(h, w);
 
         for (int y = 0; y < h; y++) {
             for (int x = 0; x < w; x++) {
@@ -129,6 +145,12 @@ public class Level {
 
         l.setTile(31, 7, new UnbreakableRailTile(new SandTile()));
         l.setTile(31, 63 - 7, new UnbreakableRailTile(new SandTile()));
+        if (l.numPlayers >= 3) {
+        	l.setTile(7, 32, new UnbreakableRailTile(new SandTile()));
+        	if (l.numPlayers >= 4) {
+        		l.setTile(63 - 7, 32, new UnbreakableRailTile(new SandTile()));
+        	}
+        }
 
         for (int y = 0; y < h + 1; y++) {
             for (int x = 0; x < w + 1; x++) {
@@ -142,6 +164,11 @@ public class Level {
     }
 
     public void init() {
+    	playerScores = new int[numPlayers];
+    	for (int i = 0; i < numPlayers; i++) {
+    		playerScores[i] = 0;
+    	}
+    
         Random random = TurnSynchronizer.synchedRandom;
 
         for (int i = 0; i < 11; i++) {
@@ -160,6 +187,17 @@ public class Level {
         addEntity(new ShopItem(32 * (width / 2 - 1.5), (height - 4.5) * 32, ShopItem.SHOP_TURRET, Team.Team1));
         addEntity(new ShopItem(32 * (width / 2 - .5), (height - 4.5) * 32, ShopItem.SHOP_HARVESTER, Team.Team1));
         addEntity(new ShopItem(32 * (width / 2 + .5), (height - 4.5) * 32, ShopItem.SHOP_BOMB, Team.Team1));
+        
+        if (numPlayers >= 3) {
+        	addEntity(new ShopItem(4.5 * 32, 32 * (height / 2 - .5), ShopItem.SHOP_TURRET, Team.Team3));
+        	addEntity(new ShopItem(4.5 * 32, 32 * (height / 2 + .5), ShopItem.SHOP_HARVESTER, Team.Team3));
+        	addEntity(new ShopItem(4.5 * 32, 32 * (height / 2 + 1.5), ShopItem.SHOP_BOMB, Team.Team3));
+        	if (numPlayers >= 4) {
+        		addEntity(new ShopItem((width - 4.5) * 32, 32 * (height / 2 - .5), ShopItem.SHOP_TURRET, Team.Team4));
+        		addEntity(new ShopItem((width - 4.5) * 32, 32 * (height / 2 + .5), ShopItem.SHOP_HARVESTER, Team.Team4));
+        		addEntity(new ShopItem((width - 4.5) * 32, 32 * (height / 2 + 1.5), ShopItem.SHOP_BOMB, Team.Team4));
+            }
+        }
 
         // test turret
 //        addEntity(new Turret(1024, 390, Team.Team1));
@@ -398,6 +436,23 @@ public class Level {
                     screen.blit(Art.startLordLard[xt][yt], x * Tile.WIDTH, y * Tile.HEIGHT);
                     continue;
                 }
+                
+                if (numPlayers >= 3) {
+            		xt = x - 4;
+            		yt = y - 29;
+            		if (xt >= 0 && yt >= 0 && xt < 4 && yt < 7 && (xt < 3 || yt != 3)) {
+                		screen.blit(Art.startPlayer3[xt][yt], x * Tile.WIDTH, y * Tile.HEIGHT);
+                		continue;
+            		}
+                	if (numPlayers >= 4) {
+                		xt = x - (64 - 8);
+                		if (xt >= 0 && yt >= 0 && xt < 4 && yt < 7 && (xt > 0 || yt != 3)) {
+                			screen.blit(Art.startPlayer4[xt][yt], x * Tile.WIDTH, y * Tile.HEIGHT);
+                			continue;
+                		}
+                	}
+                }
+                
                 if (canSee(x, y)) {
                     tiles[x + y * width].render(screen);
                 }
@@ -501,12 +556,23 @@ public class Level {
                 }
             }
         }
-        screen.blit(Art.panel, 0, screen.h - 80);
+        if (numPlayers <= 2)
+        	screen.blit(Art.panel, 0, screen.h - 80);
+        else
+        	screen.blit(Art.panel4, 0, screen.h - 80);
         screen.blit(minimap, 429, screen.h - 80 + 5);
 
-
-        Font.draw(screen, "Lord Lard: " + player1Score * 100 / TARGET_SCORE + "%", 140, screen.h - 20);
-        Font.draw(screen, "Herr Von Speck: " + player2Score * 100 / TARGET_SCORE + "%", 56, screen.h - 36);
+        if (numPlayers >= 3) {
+        	Font.draw(screen, "P1: " + playerScores[0] * 100 / TARGET_SCORE + "%", 194, screen.h - 20);
+        	Font.draw(screen, "P2: " + playerScores[1] * 100 / TARGET_SCORE + "%", 56, screen.h - 36);
+        	Font.draw(screen, "P3: " + playerScores[2] * 100 / TARGET_SCORE + "%", 194, screen.h - 36);
+        	if (numPlayers >= 4) {
+        		Font.draw(screen, "P4: " + playerScores[3] * 100 / TARGET_SCORE + "%", 56, screen.h - 20);
+        	}
+        } else {
+        	Font.draw(screen, "Lord Lard: " + playerScores[0] * 100 / TARGET_SCORE + "%", 140, screen.h - 20);
+        	Font.draw(screen, "Herr Von Speck: " + playerScores[1] * 100 / TARGET_SCORE + "%", 56, screen.h - 36);
+        }
 
         Notifications.getInstance().render(screen);
     }

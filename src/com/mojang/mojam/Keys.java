@@ -47,6 +47,7 @@ public class Keys {
     public Key add_slave = new Key();
     public Key team1_score = new Key();
     public Key team2_score = new Key();
+    public Key mute = new Key();
 
     public void tick() {
         for (Key key : all)

@@ -337,6 +337,11 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
 	                return;
 	            }
 	        }
+	        
+	        if (keys.mute.isDown && !keys.mute.wasDown) {
+	        	soundPlayer.toggleMuted();
+	        }
+	        
 	        if (packetLink != null) {
 	            packetLink.tick();
 	            

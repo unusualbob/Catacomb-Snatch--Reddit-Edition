@@ -539,13 +539,13 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
             try {
                 if (isServer) {
                     localId = 0;
+                    numPlayers = 1;
                     serverSocket = new ServerSocket(3000);
                     serverSocket.setSoTimeout(1000);
 
                     hostThread = new Thread() {
 
                         public void run() {
-                            boolean fail = true;
                             LinkedList<PacketLink> server_packetLinks = new LinkedList<PacketLink>();
                             try {
                                 while (!isInterrupted()) {
@@ -569,7 +569,6 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
                                         System.out.println("Socket is null");
                                         continue;
                                     }
-                                    fail = false;
 
                                     NetworkPacketLink link = new NetworkPacketLink(socket);
                                     if (server_packetLinks.size() < (4 - 1)) {

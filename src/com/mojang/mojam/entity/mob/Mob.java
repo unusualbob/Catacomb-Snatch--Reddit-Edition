@@ -15,6 +15,7 @@ public abstract class Mob extends Entity {
 //    private double speed = 0.82;
     private double speed = 1.0;
     protected int team;
+    protected Entity player;
     double dir = 0;
     public int hurtTime = 0;
     public int freezeTime = 0;
@@ -27,6 +28,7 @@ public abstract class Mob extends Entity {
     public double xSlide;
     public double ySlide;
     public int deathPoints = 0;
+    
 
     public Mob(double x, double y, int team) {
         super();

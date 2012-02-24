@@ -462,6 +462,29 @@ public class Level {
         for (Entity e : visibleEntities) {
             e.render(screen);
         }
+        
+        //players 3,4 have a base that has a tent between the screen and the player's character
+        if (numPlayers >= 3) {
+        	for (int y = y0; y <= y1; y++) {
+        		int yt = y - 29;
+        		if (yt >= 0 && yt < 7) {
+        			for (int x = x0; x <= x1; x++) {
+        				int xt = x - 4;
+        				if (xt >= 0 && xt < 4 && (xt < 3 || yt != 3)) {
+        					screen.blit(Art.startPlayer3_2[xt][yt], x * Tile.WIDTH, y * Tile.HEIGHT);
+        					continue;
+        				}
+        				if (numPlayers >= 4) {
+        					xt = x - (64 - 8);
+        					if (xt >= 0 && xt < 4 && (xt > 0 || yt != 3)) {
+        						screen.blit(Art.startPlayer4_2[xt][yt], x * Tile.WIDTH, y * Tile.HEIGHT);
+        						continue;
+        					}
+        				}
+        			}
+        		}
+        	}
+        }
 
         for (int y = y0; y <= y1; y++) {
             for (int x = x0; x <= x1; x++) {

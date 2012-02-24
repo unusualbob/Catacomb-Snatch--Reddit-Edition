@@ -44,8 +44,10 @@ public class Art {
     public static Bitmap[][] harvester = cut("/building/bot_vacuum.png", 32, 56);
     public static Bitmap[][] startLordLard = cut("/start_lordlard.png", 32, 32);
     public static Bitmap[][] startHerrSpeck = cut("/start_herrspeck.png", 32, 32);
-    public static Bitmap[][] startPlayer3 = cut("/start_vertical.png", 32, 32);
-    public static Bitmap[][] startPlayer4 = cut("/start_vertical.png", 32, 32);
+    public static Bitmap[][] startPlayer3 = cut("/start_lordlard_vertical.png", 32, 32);
+    public static Bitmap[][] startPlayer3_2 = cut("/start_lordlard_vertical_2.png", 32, 32);
+    public static Bitmap[][] startPlayer4 = cut("/start_herrspeck_vertical.png", 32, 32);
+    public static Bitmap[][] startPlayer4_2 = cut("/start_herrspeck_vertical_2.png", 32, 32);
 
     public static Bitmap[][] pickupCoinBronzeSmall = cut("/pickup/pickup_coin_bronze_small_8.png", 8, 8);
     public static Bitmap[][] pickupCoinBronze = cut("/pickup/pickup_coin_bronze_16.png", 16, 16);

@@ -192,3 +192,42 @@ public abstract class Mob extends Entity {
     public void onPickup() {
     }
 }
+
+    //If anyone has a better way to do this I'm all ears.
+    //This should work for multiplayer as well. I tested it with a friend and it seemed to work fine.
+    public void getPlayer(){
+        int i = 0;
+    	Entity playerA = null;
+    	Entity playerB = null;
+    	//Loop through to find first player
+		for(; i < level.entities.size(); i++){
+			Entity e = level.entities.get(i);
+			if(e instanceof Player){
+	        	playerA = e;
+	        	break;
+	        }
+		}
+		//Loop through to find second player.
+		for(i++; i < level.entities.size(); i++){
+			Entity e = level.entities.get(i);
+			if(e instanceof Player){
+				playerB = e;
+				break;
+			}
+		}
+		//Figure out which is closer, if they're both equally distant it returns the first player.
+		//Should maybe be changed so that it's more random who it picks
+		if(pos.distSqr(playerA.pos) < pos.distSqr(playerB.pos)){
+			player = playerA;
+			return;
+		}
+		else if(pos.distSqr(playerA.pos) > pos.distSqr(playerB.pos)){
+			player = playerB;
+			return;
+		}
+		else{
+			player = playerA;
+			return;
+		}
+    }
+}

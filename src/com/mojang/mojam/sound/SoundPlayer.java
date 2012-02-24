@@ -75,11 +75,15 @@ public class SoundPlayer {
     }
 
     public boolean playSound(String sourceName, float x, float y) {
-        return playSound(sourceName, x, y, false);
+        if(!isMuted())
+        	return playSound(sourceName, x, y, false);
+        return false;
     }
 
     public boolean playSound(String sourceName, float x, float y, boolean blocking) {
-        return playSound(sourceName, x, y, blocking, 0);
+    	if(!isMuted())
+    		return playSound(sourceName, x, y, blocking, 0);
+    	return false;
     }
 
     private boolean playSound(String sourceName, float x, float y, boolean blocking, int index) {
@@ -122,5 +126,15 @@ public class SoundPlayer {
 
     public void setMuted(boolean muted) {
         this.muted = muted;
+    }
+    
+    public void toggleMuted() {
+    	if(!muted){
+    		muted = true;
+    		stopBackgroundMusic();
+    	}else{
+    		muted = false;
+    		startBackgroundMusic();
+    	}
     }
 }

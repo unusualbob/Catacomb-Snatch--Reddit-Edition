@@ -39,6 +39,7 @@ public class InputHandler implements KeyListener {
 		mappings.put(KeyEvent.VK_E, keys.use);
 		
 		mappings.put(KeyEvent.VK_ESCAPE, keys.pause);
+		mappings.put(KeyEvent.VK_M, keys.mute);
 		
 		mappings.put(KeyEvent.VK_1, keys.give_money);
 		

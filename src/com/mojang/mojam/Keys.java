@@ -49,6 +49,7 @@ public class Keys {
     public Key team2_score = new Key();
     public Key team3_score = new Key();
     public Key team4_score = new Key();
+    public Key mute = new Key();
 
     public void tick() {
         for (Key key : all)

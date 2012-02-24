@@ -26,10 +26,68 @@ public class Mummy extends Mob {
         if (freezeTime > 0) return;
 
         double speed = 0.5;
+        if(player != null && player.pos.dist(pos) < radius){
+            //Doubles the mummies speed. Could be set to lower as currently it makes the game much more difficult.
+        	speed = 1;
+        	//Cardinals
+        	if (pos.y < player.pos.y && Math.abs(pos.x - player.pos.x) < Tile.WIDTH * 0.5) facing = 0;
+        	else if (pos.x > player.pos.x && Math.abs(pos.y - player.pos.y) < Tile.WIDTH * 0.5) facing = 1;
+        	else if (pos.y > player.pos.y && Math.abs(pos.y - player.pos.y) < Tile.WIDTH * 0.5) facing = 2;
+        	else if (pos.x < player.pos.x && Math.abs(pos.y - player.pos.y) < Tile.WIDTH * 0.5) facing = 3;
+        	//Diagonals
+        	else if(pos.x > player.pos.x && pos.y > player.pos.y) facing = 4;
+        	else if(pos.x > player.pos.x && pos.y < player.pos.y) facing = 5;
+        	else if(pos.x < player.pos.x && pos.y < player.pos.y) facing = 6;
+        	else if(pos.x < player.pos.x && pos.y > player.pos.y) facing = 7;
+        	
+        	
+        	
+        	
+        }
+        //Cardinals
         if (facing == 0) yd += speed;
         if (facing == 1) xd -= speed;
         if (facing == 2) yd -= speed;
         if (facing == 3) xd += speed;
+        //Diagonals
+        if (facing == 4){
+        	xd -= speed;
+        	yd -= speed;
+        }
+        if (facing == 5){
+        	xd -= speed;
+        	yd += speed;
+        }
+        if (facing == 6){
+        	xd += speed;
+        	yd += speed;
+        }
+        if (facing == 7){
+        	xd += speed;
+        	yd -= speed;
+        }
+        
+        //Can be removed when sprite sheet is updated with diagonals. Will have to change the way it picks the sprite too;
+        if(facing == 4 || facing == 5){
+        	if(player != null && Math.abs(pos.y - player.pos.y) > Math.abs(pos.x - player.pos.x)){
+        		if(pos.y < player.pos .y) facing = 0;
+        		if(pos.y > player.pos.y) facing = 2; 
+        	}
+        	else{
+        		facing = 1;
+        	}
+        }
+        else if(facing == 6 || facing == 7) {
+        	if(player != null && Math.abs(pos.y - player.pos.y) > Math.abs(pos.x - player.pos.x)){
+        		if(pos.y < player.pos .y) facing = 0;
+        		if(pos.y > player.pos.y) facing = 2; 
+        	}
+        	else{
+        		facing = 3;
+        	}
+        }
+        //End of sprite sheet work around
+        
         walkTime++;
 
         if (walkTime / 12 % 3 != 0) {

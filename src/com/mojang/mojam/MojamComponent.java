@@ -314,7 +314,7 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
             menuStack.peek().render(screen);
         }
 
-        Font.draw(screen, "FPS: " + fps, 10, 10);
+//        Font.draw(screen, "FPS: " + fps, 10, 10);
 //        for (int p = 0; p < players.length; p++) {
 //            if (players[p] != null) {
 //                String msg = "P" + (p + 1) + ": " + players[p].getScore();
@@ -356,6 +356,11 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
 	        		}
 	        	}
 	        }
+	        
+	        if (keys.mute.isDown && !keys.mute.wasDown) {
+	        	soundPlayer.toggleMuted();
+	        }
+	        
 	        if (packetLink != null) {
 	            packetLink.tick();
 	            

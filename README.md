@@ -17,6 +17,7 @@ Project contributors:
 * michael
 * unusualbob
 * bvc
+* phalanx
 * (if you're not listed and you've made a commit to the project, let someone know if you want to be acreddited)
 
 Catacomb Snatch is Mojang's game created in 60-hours as part of the Humble Bundle Mojam. The game was released along with its code at the end of the 60 hours, with no licensing or restrictions.  'Reddit Edition' is the continuation of Catacomb Snatches development based upon the original games source code, adding new features and fixing up errors and bugs within the game, by the community residing at http://reddit.com/r/CatacombSnatch
@@ -49,7 +50,9 @@ Changes (from Mojangs source)
 * Added a help menu
 * Modified buttons - instead of just being a graphic (that contains the related text, they are now just a background graphic with text rendered on top.
 * Implemented the ability to pause the game (escape key).
-
+* Removed FPS counter.
+* Added button to mute sound - 'M'.
+                             - 
 Ideas
 =====
 Nothing final, just suggestions of things to do in the future - however ambitious.

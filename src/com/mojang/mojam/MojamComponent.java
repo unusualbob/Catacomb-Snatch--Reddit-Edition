@@ -481,7 +481,7 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
     		//if (isServer) {
     		//			//Hosting thread deals with dead connections, PartPacket sets a connection's isQuitting = true
     		//}
-    		if (!isServer) {
+        	if (!isServer && !menuStack.isEmpty()) {
         		if (menuStack.peek() instanceof JoinWaitMenu) {
         			JoinWaitMenu menu = (JoinWaitMenu) menuStack.peek();
         			menu.numPlayers = 0;

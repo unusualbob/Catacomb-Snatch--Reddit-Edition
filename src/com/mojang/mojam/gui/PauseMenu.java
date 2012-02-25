@@ -5,9 +5,6 @@ import java.awt.event.KeyEvent;
 import com.mojang.mojam.screen.*;
 
 public class PauseMenu extends GuiMenu {
-	
-	public static final int RESUME_LEVEL_ID = 1008;
-	public static final int EXIT_LEVEL_ID = 1009;
     private int selectedItem = 0;
     private int gameWidth;
 
@@ -15,8 +12,8 @@ public class PauseMenu extends GuiMenu {
         super();
         this.gameWidth = gameWidth;
         
-        addButton(new Button(RESUME_LEVEL_ID, "Resume", 0, (gameWidth - 128) / 2, 200));
-        addButton(new Button(EXIT_LEVEL_ID, "Exit to Main", 0, (gameWidth - 128) / 2, 240));
+        addButton(new Button(TitleMenu.RESUME_LEVEL_ID, "Resume", 0, (gameWidth - 128) / 2, 200));
+        addButton(new Button(TitleMenu.EXIT_LEVEL_ID, "Exit to Main", 0, (gameWidth - 128) / 2, 240));
     }
 
     public void render(Screen screen) {

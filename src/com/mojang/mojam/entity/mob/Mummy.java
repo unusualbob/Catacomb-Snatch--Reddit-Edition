@@ -2,6 +2,7 @@ package com.mojang.mojam.entity.mob;
 
 import com.mojang.mojam.entity.Entity;
 import com.mojang.mojam.network.TurnSynchronizer;
+import com.mojang.mojam.level.tile.Tile;
 import com.mojang.mojam.screen.*;
 
 public class Mummy extends Mob {
@@ -24,11 +25,11 @@ public class Mummy extends Mob {
     public void tick() {
         super.tick();
         if (freezeTime > 0) return;
-
+        getPlayer();
         double speed = 0.5;
         if(player != null && player.pos.dist(pos) < radius){
             //Doubles the mummies speed. Could be set to lower as currently it makes the game much more difficult.
-        	speed = 1;
+            speed = 1;
         	//Cardinals
         	if (pos.y < player.pos.y && Math.abs(pos.x - player.pos.x) < Tile.WIDTH * 0.5) facing = 0;
         	else if (pos.x > player.pos.x && Math.abs(pos.y - player.pos.y) < Tile.WIDTH * 0.5) facing = 1;

@@ -6,6 +6,7 @@ import com.mojang.mojam.entity.animation.EnemyDieAnimation;
 import com.mojang.mojam.entity.loot.Loot;
 import com.mojang.mojam.math.Vec2;
 import com.mojang.mojam.screen.*;
+import com.mojang.mojam.level.tile.Tile;
 
 public abstract class Mob extends Entity {
 
@@ -15,6 +16,7 @@ public abstract class Mob extends Entity {
 //    private double speed = 0.82;
     private double speed = 1.0;
     protected int team;
+    protected Entity player;
     double dir = 0;
     public int hurtTime = 0;
     public int freezeTime = 0;
@@ -27,11 +29,13 @@ public abstract class Mob extends Entity {
     public double xSlide;
     public double ySlide;
     public int deathPoints = 0;
+    public int radius = Tile.WIDTH*5;
 
     public Mob(double x, double y, int team) {
         super();
         setPos(x, y);
         this.team = team;
+
     }
 
     public void init() {
@@ -191,7 +195,7 @@ public abstract class Mob extends Entity {
 
     public void onPickup() {
     }
-}
+
 
     //If anyone has a better way to do this I'm all ears.
     //This should work for multiplayer as well. I tested it with a friend and it seemed to work fine.
@@ -216,17 +220,18 @@ public abstract class Mob extends Entity {
 			}
 		}
 		//Figure out which is closer, if they're both equally distant it returns the first player.
-		//Should maybe be changed so that it's more random who it picks
-		if(pos.distSqr(playerA.pos) < pos.distSqr(playerB.pos)){
+		//Should maybe be changed so that it's more random who it picks. Will also need to be updated
+		//if more than 2 player multiplayer is added
+		if(playerB == null){
+			player = playerA;
+			return;
+		}
+		else if(pos.distSqr(playerA.pos) < pos.distSqr(playerB.pos)){
 			player = playerA;
 			return;
 		}
 		else if(pos.distSqr(playerA.pos) > pos.distSqr(playerB.pos)){
 			player = playerB;
-			return;
-		}
-		else{
-			player = playerA;
 			return;
 		}
     }

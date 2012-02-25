@@ -150,13 +150,21 @@ public class RailDroid extends Mob {
             }
         }
         if (carrying && swapTime == 0) {
-            if (pos.y < 14 * Tile.HEIGHT) {
+            if (pos.y < (7 + 1) * Tile.HEIGHT) {
                 carrying = false;
-                level.player1Score += 2;
+                level.playerScores[1] += 2;
             }
-            if (pos.y > (level.height - 14 - 1) * Tile.HEIGHT) {
+            if (pos.y > (level.height - 7 - 1) * Tile.HEIGHT) {
                 carrying = false;
-                level.player2Score += 2;
+                level.playerScores[0] += 2;
+            }
+            if (pos.x < 8 * Tile.WIDTH) {
+            	carrying = false;
+            	level.playerScores[2] += 2;
+            }
+            if (pos.x > (level.height - 7 - 1) * Tile.WIDTH) {
+            	carrying = false;
+            	level.playerScores[3] += 2;
             }
         }
 //        level.getTile(xt, yt)

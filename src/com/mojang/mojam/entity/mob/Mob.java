@@ -198,41 +198,30 @@ public abstract class Mob extends Entity {
 
 
     //If anyone has a better way to do this I'm all ears.
-    //This should work for multiplayer as well. I tested it with a friend and it seemed to work fine.
     public void getPlayer(){
-        int i = 0;
-    	Entity playerA = null;
-    	Entity playerB = null;
-    	//Loop through to find first player
-		for(; i < level.entities.size(); i++){
+    	Entity players[] = new Entity[level.numPlayers];
+    	
+    	//Loop through to find players
+    	int p = 0;
+		for(int i = 0; i < level.entities.size(); i++){
 			Entity e = level.entities.get(i);
 			if(e instanceof Player){
-	        	playerA = e;
-	        	break;
+	        	players[p] = e;
+	        	p++;
+	        	if (p >= level.numPlayers)
+	        		break;
 	        }
 		}
-		//Loop through to find second player.
-		for(i++; i < level.entities.size(); i++){
-			Entity e = level.entities.get(i);
-			if(e instanceof Player){
-				playerB = e;
-				break;
-			}
-		}
 		//Figure out which is closer, if they're both equally distant it returns the first player.
-		//Should maybe be changed so that it's more random who it picks. Will also need to be updated
-		//if more than 2 player multiplayer is added
-		if(playerB == null){
-			player = playerA;
-			return;
-		}
-		else if(pos.distSqr(playerA.pos) < pos.distSqr(playerB.pos)){
-			player = playerA;
-			return;
-		}
-		else if(pos.distSqr(playerA.pos) > pos.distSqr(playerB.pos)){
-			player = playerB;
-			return;
+		//Should maybe be changed so that it's more random who it picks
+		double dist = pos.distSqr(players[0].pos);
+		player = players[0];
+		for (int i = 1; i < p; i++) {
+			double tmpDist = pos.distSqr(players[i].pos);
+			if (tmpDist < dist) {
+				player = players[i];
+				dist = tmpDist;
+			}
 		}
     }
 }

@@ -16,7 +16,7 @@ public class TurnSynchronizer {
 
     private List<NetworkCommand> nextTurnCommands = new ArrayList<NetworkCommand>();
     private PlayerTurnCommands playerCommands;
-    private final int numPlayers;
+    private int numPlayers;
 
     private TurnInfo[] turnInfo = new TurnInfo[TURN_QUEUE_LENGTH];
     private int commandSequence = TURN_QUEUE_LENGTH - 1;
@@ -129,6 +129,16 @@ public class TurnSynchronizer {
         setStarted(true);
         synchedSeed = packet.getGameSeed();
         synchedRandom.setSeed(synchedSeed);
+        
+        this.localId = packet.getLocalId();
+        this.numPlayers = packet.getNumPlayers();
+        this.playerCommands = new PlayerTurnCommands(numPlayers);
+
+        for (int i = 0; i < turnInfo.length; i++) {
+        	turnInfo[i] = new TurnInfo(i, numPlayers);
+        }
+        turnInfo[0].isDone = true;
+        turnInfo[1].isDone = true;
     }
 
 

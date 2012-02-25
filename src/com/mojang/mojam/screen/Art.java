@@ -19,6 +19,8 @@ public class Art {
     public static Bitmap[][] bullets = cut("/bullets.png", 16, 16);
     public static Bitmap[][] lordLard = cut("/lord_lard_sheet.png", 32, 32);
     public static Bitmap[][] herrSpeck = cut("/herr_von_speck_sheet.png", 32, 32);
+    public static Bitmap[][] player3 = cut("/player3_sheet.png", 32, 32);
+    public static Bitmap[][] player4 = cut("/player4_sheet.png", 32, 32);
     public static Bitmap[] titles = cut("/titles.png", 128);
     public static Bitmap[][] buttons = cut("/buttons.png", 128, 32);
     public static Bitmap[][] font = cut("/gamfont.png", 8, 8);
@@ -27,6 +29,7 @@ public class Art {
     public static Bitmap gameOverScreen = load("/game_over.png");
     public static Bitmap pauseScreen = load("/paused.png");
     public static Bitmap panel = load("/panel.png");
+    public static Bitmap panel4 = load("/panel4.png");
     public static Bitmap shadow = load("/shadow.png");
     public static Bitmap[][] slave = cut("/mob/slave.png", 32, 32);
     public static Bitmap[][] mummy = cut("/mob/enemy_mummy_anim_48.png", 48, 48);
@@ -41,6 +44,10 @@ public class Art {
     public static Bitmap[][] harvester = cut("/building/bot_vacuum.png", 32, 56);
     public static Bitmap[][] startLordLard = cut("/start_lordlard.png", 32, 32);
     public static Bitmap[][] startHerrSpeck = cut("/start_herrspeck.png", 32, 32);
+    public static Bitmap[][] startPlayer3 = cut("/start_lordlard_vertical.png", 32, 32);
+    public static Bitmap[][] startPlayer3_2 = cut("/start_lordlard_vertical_2.png", 32, 32);
+    public static Bitmap[][] startPlayer4 = cut("/start_herrspeck_vertical.png", 32, 32);
+    public static Bitmap[][] startPlayer4_2 = cut("/start_herrspeck_vertical_2.png", 32, 32);
 
     public static Bitmap[][] pickupCoinBronzeSmall = cut("/pickup/pickup_coin_bronze_small_8.png", 8, 8);
     public static Bitmap[][] pickupCoinBronze = cut("/pickup/pickup_coin_bronze_16.png", 16, 16);

@@ -10,6 +10,7 @@ public class Button extends GuiComponent {
     private List<ButtonListener> listeners;
 
     private boolean isPressed;
+    public boolean visible = true;
 
     private final int x;
     private final int y;
@@ -40,24 +41,26 @@ public class Button extends GuiComponent {
     public void tick(MouseButtons mouseButtons) {
         super.tick(mouseButtons);
 
-        int mx = mouseButtons.getX() / 2;
-        int my = mouseButtons.getY() / 2;
-        isPressed = false;
-        if (mx >= x && my >= y && mx < (x + w) && my < (y + h)) {
-            if (mouseButtons.isRelased(1)) {
-                postClick();
-            } else if (mouseButtons.isDown(1)) {
-                isPressed = true;
-            }
-        }
-
-        if (performClick) {
-            if (listeners != null) {
-                for (ButtonListener listener : listeners) {
-                    listener.buttonPressed(this);
-                }
-            }
-            performClick = false;
+        if (visible) {
+	        int mx = mouseButtons.getX() / 2;
+	        int my = mouseButtons.getY() / 2;
+	        isPressed = false;
+	        if (mx >= x && my >= y && mx < (x + w) && my < (y + h)) {
+	            if (mouseButtons.isRelased(1)) {
+	                postClick();
+	            } else if (mouseButtons.isDown(1)) {
+	                isPressed = true;
+	            }
+	        }
+	
+	        if (performClick) {
+	            if (listeners != null) {
+	                for (ButtonListener listener : listeners) {
+	                    listener.buttonPressed(this);
+	                }
+	            }
+	            performClick = false;
+	        }
         }
     }
 
@@ -67,14 +70,15 @@ public class Button extends GuiComponent {
 
     @Override
     public void render(Screen screen) {
-
-        if (isPressed) {
-            screen.blit(Art.buttons[ix][iy * 2 + 1], x, y);
-            Font.draw(screen, text, x+((w-Font.getStringWidth(text))/2), y+((h-Font.getStringHeight(text))/2)+3);
-        } else {
-            screen.blit(Art.buttons[ix][iy * 2 + 0], x, y);
-            Font.draw(screen, text, x+((w-Font.getStringWidth(text))/2), y+((h-Font.getStringHeight(text))/2));
-        }
+    	if (visible) {
+	        if (isPressed) {
+	            screen.blit(Art.buttons[ix][iy * 2 + 1], x, y);
+	            Font.draw(screen, text, x+((w-Font.getStringWidth(text))/2), y+((h-Font.getStringHeight(text))/2)+3);
+	        } else {
+	            screen.blit(Art.buttons[ix][iy * 2 + 0], x, y);
+	            Font.draw(screen, text, x+((w-Font.getStringWidth(text))/2), y+((h-Font.getStringHeight(text))/2));
+	        }
+    	}
     }
 
     public boolean isPressed() {

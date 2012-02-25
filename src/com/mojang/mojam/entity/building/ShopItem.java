@@ -26,6 +26,10 @@ public class ShopItem extends Building {
         isImmortal = true;
         if (team == Team.Team1) {
             facing = 4;
+        } else if (team == Team.Team3) {
+        	facing = 6;
+        } else if (team == Team.Team4) {
+        	facing = 2;
         }
     }
 

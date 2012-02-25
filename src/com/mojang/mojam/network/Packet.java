@@ -19,6 +19,8 @@ public abstract class Packet {
     }
 
     static {
+    	map(8, JoinPacket.class);
+    	map(9, PartPacket.class);
         map(10, StartGamePacket.class);
         map(11, TurnPacket.class);
 

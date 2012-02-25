@@ -147,11 +147,16 @@ public class Player extends Mob implements LootCollector {
         }
         
         if (keys.team1_score.isDown && !keys.team1_score.wasDown) {
-        	level.player1Score += 2;
+        	level.playerScores[0] += 2;
         }
-        
         if (keys.team2_score.isDown && !keys.team2_score.wasDown) {
-        	level.player2Score += 2;
+        	level.playerScores[1] += 2;
+        }
+        if (keys.team3_score.isDown && !keys.team3_score.wasDown) {
+        	level.playerScores[2] += 2;
+        }
+        if (keys.team4_score.isDown && !keys.team4_score.wasDown) {
+        	level.playerScores[3] += 2;
         }
         
         
@@ -258,11 +263,10 @@ public class Player extends Mob implements LootCollector {
                     payCost(COST_RAIL);
                 }
             } else if (level.getTile(x, y) instanceof RailTile) {
-                if ((y < 8 && team == Team.Team2) || (y > level.height - 9 && team == Team.Team1)) {
-                    if (score >= COST_DROID) {
+                if ((y < 8 && team == Team.Team2) || (y > level.height - 9 && team == Team.Team1)
+                	|| (x < 8 && team == Team.Team3) || (x > level.width - 9 && team == Team.Team4) ) {
                         level.addEntity(new RailDroid(pos.x, pos.y, team));
                         payCost(COST_DROID);
-                    }
                 } else {
 
                     if (score >= COST_REMOVE_RAIL && time - lastRailTick >= RailDelayTicks) {
@@ -373,6 +377,10 @@ public class Player extends Mob implements LootCollector {
         Bitmap[][] sheet = Art.lordLard;
         if (team == Team.Team2) {
             sheet = Art.herrSpeck;
+        } else if (team == Team.Team3) {
+        	sheet = Art.player3;
+        } else if (team == Team.Team4) {
+        	sheet = Art.player4;
         }
 
         int frame = (walkTime / 4 % 6 + 6) % 6;
@@ -472,7 +480,20 @@ public class Player extends Mob implements LootCollector {
 
     public void notifySucking() {
     }
-
+    
+    public String getName() {
+    	if (level.numPlayers <= 2) {
+    		if (team == Team.Team1) return "Lord Lard";
+    		if (team == Team.Team2) return "Herr Von Speck";
+    	} else {
+    		if (team == Team.Team1) return "Player 1";
+    		if (team == Team.Team2) return "Player 2";
+    	}
+    	if (team == Team.Team3) return "Player 3";
+    	if (team == Team.Team4) return "Player 4";
+    	return "He";
+    }
+    
     @Override
     public void hurt(Entity source, int damage) {
         if (isImmortal) {
@@ -486,7 +507,7 @@ public class Player extends Mob implements LootCollector {
             regenDelay = REGEN_INTERVAL;
 
             if (health <= 0) {
-                Notifications.getInstance().add((team == Team.Team1 ? "Lord Lard" : "Herr Von Speck") + " has died!");
+                Notifications.getInstance().add(getName() + " has died!");
                 carrying = null;
                 dropAllMoney();
                 pos.set(startX, startY);

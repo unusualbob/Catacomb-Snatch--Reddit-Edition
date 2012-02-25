@@ -16,6 +16,9 @@ public class TitleMenu extends GuiMenu {
     public static final int PERFORM_JOIN_ID = 1005;
     public static final int RESTART_GAME_ID = 1006;
     public static final int HELP_ID = 1007;
+	public static final int RESUME_LEVEL_ID = 1008;
+	public static final int EXIT_LEVEL_ID = 1009;
+    public static final int START_HOST_ID = 1010;
     
 
     // public static lol... ;)

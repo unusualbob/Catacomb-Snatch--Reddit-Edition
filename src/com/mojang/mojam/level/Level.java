@@ -135,7 +135,7 @@ public class Level {
                 } else if (col == 0xff0000) {
                     tile = new WallTile();
                 } else if (col == 0xffff00) {
-                    TreasurePile t = new TreasurePile(x * Tile.WIDTH + 16, y * Tile.HEIGHT, Team.Neutral);
+                    TreasurePile t = new TreasurePile(x * Tile.WIDTH + 16, y * Tile.HEIGHT + 11, Team.Neutral);
                     l.addEntity(t);
                 }
 

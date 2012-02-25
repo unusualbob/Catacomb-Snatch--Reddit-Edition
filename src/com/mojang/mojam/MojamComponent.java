@@ -172,24 +172,24 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
         players[0] = new Player(synchedKeys[0], level.width * Tile.WIDTH / 2 - 16, (level.height - 5 - 1) * Tile.HEIGHT - 16, Team.Team1);
         players[0].setFacing(4);
         level.addEntity(players[0]);
-        level.addEntity(new Base(34 * Tile.WIDTH, 7 * Tile.WIDTH, Team.Team1));
+        //level.addEntity(new Base(34 * Tile.WIDTH, 7 * Tile.WIDTH, Team.Team1));
         if (isMultiplayer) {
             players[1] = new Player(synchedKeys[1], level.width * Tile.WIDTH / 2 - 16, 7 * Tile.HEIGHT - 16, Team.Team2);
 //            players[1] = new Player(synchedKeys[1], 10, 10);
             level.addEntity(players[1]);
-            level.addEntity(new Base(32 * Tile.WIDTH - 20, 32 * Tile.WIDTH - 20, Team.Team2));
+            //level.addEntity(new Base(32 * Tile.WIDTH - 20, 32 * Tile.WIDTH - 20, Team.Team2));
             
             if (numPlayers >= 3) {
             	players[2] = new Player(synchedKeys[2], 7 * Tile.WIDTH - 16, level.height * Tile.HEIGHT / 2 + 16, Team.Team3);
             	players[2].setFacing(6);
             	level.addEntity(players[2]);
-            	level.addEntity(new Base(32 * Tile.WIDTH - 20, 32 * Tile.WIDTH - 20, Team.Team3));
+            	//level.addEntity(new Base(32 * Tile.WIDTH - 20, 32 * Tile.WIDTH - 20, Team.Team3));
             	
             	if (numPlayers >= 4) {
             		players[3] = new Player(synchedKeys[3], (level.width - 5 - 1) * Tile.WIDTH - 16, level.height * Tile.HEIGHT / 2 + 16, Team.Team4);
             		players[3].setFacing(2);
             		level.addEntity(players[3]);
-            		level.addEntity(new Base(7 * Tile.WIDTH, 34 * Tile.WIDTH, Team.Team4));
+            		//level.addEntity(new Base(7 * Tile.WIDTH, 34 * Tile.WIDTH, Team.Team4));
             	}
             }
         }

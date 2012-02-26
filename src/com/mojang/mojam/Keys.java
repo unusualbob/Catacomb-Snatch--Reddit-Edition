@@ -40,6 +40,7 @@ public class Keys {
     public Key build = new Key();
     public Key use = new Key();
     public Key pause = new Key();
+    public Key help = new Key();
     public Key give_money = new Key();
     public Key give_turret = new Key();
     public Key give_harvester = new Key();

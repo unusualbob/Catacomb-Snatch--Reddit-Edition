@@ -92,11 +92,6 @@ public class Player extends Mob implements LootCollector {
         if (muzzleTicks > 0) {
             muzzleTicks--;
         }
-        if (keys.pause.wasPressed())
-        {
-        	System.out.println("Pause Hit");
-        	MojamComponent.togglePause();
-        }
         if (keys.up.isDown || keys.down.isDown || keys.left.isDown || keys.right.isDown) {
             if ((carrying == null && steps % 10 == 0) || (steps % 20 == 0)) {
                 MojamComponent.soundPlayer.playSound("/sound/Step " + (TurnSynchronizer.synchedRandom.nextInt(2) + 1) + ".wav", (float) pos.x, (float) pos.y, true);

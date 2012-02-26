@@ -115,25 +115,15 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
         soundPlayer.shutdown();
     }
     
-    public static void togglePause() {
-    	//If single player then pause the game and show pause menu.
+    public void pause(GuiMenu menu) {
+    	//If single player then pause the game and show passed menu.
     	if (!isMultiplayer)
     	{
     		bPaused = !bPaused;
     	}
-//		Unusualbob:
-//		Multiplayer we dont actually want to pause, maybe just show options menu or something?
-//		If we want to pause for both clients it will work, but we need to polish the pause system
-//		to include a check to make sure the other player is still there and maybe chat.
-//    	else
-//    	{
-//    		Can't use this unless addMenu is static and I can't figure out how to handle the 'this' part of it.
-//    		if (!bPauseMenuUp)
-//    		{
-//    			addMenu(new PauseMenu(GAME_WIDTH, GAME_HEIGHT));
-//    			bPauseMenuUp = true;
-//    		}
-//    	}
+    	addMenu(new PauseMenu(GAME_WIDTH, GAME_HEIGHT));	// Add a PauseMenu so there's a GuiMenu to fall back upon when popMenu is called.
+		bPauseMenuUp = true;
+		if (!(menu instanceof PauseMenu)) addMenu(menu);
     }
 
     private void init() {
@@ -360,6 +350,17 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
 	        if (keys.mute.isDown && !keys.mute.wasDown) {
 	        	soundPlayer.toggleMuted();
 	        }
+
+	        if (keys.pause.isDown && !keys.pause.wasDown)
+	        {
+	        	System.out.println("Pause Hit");
+	        	pause(new PauseMenu(GAME_WIDTH, GAME_HEIGHT));
+	        }
+	        if (keys.help.isDown && !keys.help.wasDown)
+	        {
+	        	System.out.println("Pause to help");
+	        	pause(new HelpMenu());
+	        }
 	        
 	        if (packetLink != null) {
 	            packetLink.tick();
@@ -390,15 +391,6 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
 	                level.tick();
 	            }
 	        }
-    	}
-    	else
-    	{
-    		//System.out.println("Paused");
-    		if (!bPauseMenuUp)
-    		{
-    			addMenu(new PauseMenu(GAME_WIDTH, GAME_HEIGHT));
-    			bPauseMenuUp = true;
-    		}
     	}
 	        mouseButtons.setPosition(getMousePosition());
 	        if (!menuStack.isEmpty()) {

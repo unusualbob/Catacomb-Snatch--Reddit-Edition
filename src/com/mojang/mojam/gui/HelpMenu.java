@@ -45,7 +45,10 @@ public class HelpMenu extends GuiMenu {
         super.render(screen);
     }
     
-    public void keyPressed(KeyEvent arg0) {
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE || e.getKeyCode() == KeyEvent.VK_F1) {
+        	buttons.get(0).postClick();
+        }
     }
 
     public void keyReleased(KeyEvent arg0) {

@@ -13,7 +13,8 @@ public class PauseMenu extends GuiMenu {
         this.gameWidth = gameWidth;
         
         addButton(new Button(TitleMenu.RESUME_LEVEL_ID, "Resume", 0, (gameWidth - 128) / 2, 200));
-        addButton(new Button(TitleMenu.EXIT_LEVEL_ID, "Exit to Main", 0, (gameWidth - 128) / 2, 240));
+        addButton(new Button(TitleMenu.HELP_ID, "Help", 0, (gameWidth - 128) / 2, 240));
+        addButton(new Button(TitleMenu.EXIT_LEVEL_ID, "Exit to Main", 0, (gameWidth - 128) / 2, 280));
     }
 
     public void render(Screen screen) {

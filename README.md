@@ -54,7 +54,8 @@ Changes (from Mojangs source)
 * Removed FPS counter.
 * Added button to mute sound - 'M'.
 * Up to 4 players when in multiplayer
-                             - 
+* Binding Of Isaac style controls.
+
 Ideas
 =====
 Nothing final, just suggestions of things to do in the future - however ambitious.

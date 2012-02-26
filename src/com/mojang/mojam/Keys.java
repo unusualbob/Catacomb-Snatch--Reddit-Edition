@@ -36,11 +36,18 @@ public class Keys {
     public Key down = new Key();
     public Key left = new Key();
     public Key right = new Key();
-    public Key fire = new Key();
+    
+    public Key fire_up = new Key();
+    public Key fire_down = new Key();
+    public Key fire_left = new Key();
+    public Key fire_right = new Key();
+    
     public Key build = new Key();
     public Key use = new Key();
+    
     public Key pause = new Key();
     public Key help = new Key();
+    
     public Key give_money = new Key();
     public Key give_turret = new Key();
     public Key give_harvester = new Key();

@@ -155,11 +155,29 @@ public class Player extends Mob implements LootCollector {
         }
         
         
-        if (!keys.fire.isDown && xa * xa + ya * ya != 0) {
+        if (!(keys.fire_up.isDown || keys.fire_down.isDown || keys.fire_left.isDown || keys.fire_right.isDown) && xa * xa + ya * ya != 0) {
             xAim *= 0.7;
             yAim *= 0.7;
             xAim += xa;
             yAim += ya;
+            facing = (int) ((Math.atan2(-xAim, yAim) * 8 / (Math.PI * 2) + 8.5)) & 7;
+        }
+        if (keys.fire_up.isDown) {
+            yAim--;
+        }
+        if (keys.fire_down.isDown) {
+            yAim++;
+        }
+        if (keys.fire_left.isDown) {
+        	xAim--;
+        }
+        if (keys.fire_right.isDown) {
+            xAim++;
+        }
+
+        if (keys.fire_up.isDown || keys.fire_down.isDown || keys.fire_left.isDown || keys.fire_right.isDown) {
+            xAim *= 0.7;
+            yAim *= 0.7;
             facing = (int) ((Math.atan2(-xAim, yAim) * 8 / (Math.PI * 2) + 8.5)) & 7;
         }
 
@@ -215,13 +233,13 @@ public class Player extends Mob implements LootCollector {
         yBump *= 0.8;
         muzzleImage = (muzzleImage + 1) & 3;
 
-        if (carrying == null && keys.fire.isDown) {
+        if (carrying == null && (keys.fire_up.isDown || keys.fire_down.isDown || keys.fire_left.isDown || keys.fire_right.isDown)) {
             wasShooting = true;
             if (takeDelay > 0) {
                 takeDelay--;
             }
             if (shootDelay-- <= 0) {
-                double dir = Math.atan2(yAim, xAim) + (TurnSynchronizer.synchedRandom.nextFloat() - TurnSynchronizer.synchedRandom.nextFloat()) * 0.1;
+            	double dir = Math.atan2(yAim, xAim) + (TurnSynchronizer.synchedRandom.nextFloat() - TurnSynchronizer.synchedRandom.nextFloat()) * 0.1;
 
                 xa = Math.cos(dir);
                 ya = Math.sin(dir);

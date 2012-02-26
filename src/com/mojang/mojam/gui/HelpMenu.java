@@ -18,8 +18,8 @@ public class HelpMenu extends GuiMenu {
         screen.clear(0);
         Font.draw(screen, "CONTROLS", 10, 30);
         Font.draw(screen, "--------", 10, 40);
-        Font.draw(screen, "Arrows/WASD: Move.", 10, 50);
-        Font.draw(screen, "Space/C: Shoot (lock firing angle).", 10, 60);
+        Font.draw(screen, "WASD: Move.", 10, 50);
+        Font.draw(screen, "Arrow keys: Shoot.", 10, 60);
         Font.draw(screen, "E/Z: Buy/Pick Up.", 10, 70);
         Font.draw(screen, "R/X: Lay/Remove Track.", 10, 80);
         Font.draw(screen, "R/X (while standing on the first rail in your base):", 10, 90);

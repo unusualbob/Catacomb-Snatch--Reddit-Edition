@@ -464,7 +464,8 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
         	TurnPacket tmp = (TurnPacket) packet;
         	if (isServer)
         		((MultiplePacketLink) packetLink).sendPacketExcept(packet, tmp.getPlayerId());
-        	synchronizer.onTurnPacket(tmp);
+        	if (synchronizer != null)
+        		synchronizer.onTurnPacket(tmp);
         } else if (packet instanceof JoinPacket) {
         	if (menuStack.peek() instanceof JoinWaitMenu) {
         		((JoinWaitMenu) menuStack.peek()).numPlayers = ((JoinPacket) packet).getNumPlayers();
@@ -641,6 +642,11 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
     	} else if (button.getId() == TitleMenu.EXIT_LEVEL_ID) {
             bPaused = false;
             bPauseMenuUp = false;
+            if (packetLink != null) {
+    			//packetLink.sendPacket(new PartPacket());
+    			packetLink.disconnect();
+    			packetLink = null;
+    		}
             level = null;
             clearMenus();
             synchronizer = null;

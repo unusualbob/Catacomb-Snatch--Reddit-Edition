@@ -532,6 +532,7 @@ public class MojamComponent extends Canvas implements Runnable, MouseMotionListe
             isMultiplayer = false;
 
             localId = 0;
+            numPlayers = 1;
             synchronizer = new TurnSynchronizer(this, null, 0, 1);
             synchronizer.setStarted(true);
 

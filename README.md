@@ -64,10 +64,11 @@ Not sure which was the last commit before Build 1 was built...so I'm just going 
 * Implemented the ability to pause the game (escape key).
 * Removed FPS counter.
 * Added button to mute sound - 'M'.
+* Mummies are now attracted toward the player if the player is within a certain range.
 * Up to 4 players when in multiplayer
 * Binding Of Isaac style controls.
- * Movement: WASD; shoot: Arrow keys.
-
+ * Movement: WASD
+ * Shoot: Arrow keys
 Ideas
 =====
 Nothing final, just suggestions of things to do in the future - however ambitious.

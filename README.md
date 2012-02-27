@@ -1,5 +1,11 @@
 Catacomb Snatch - Reddit Edition
 ================================
+### Running
+To run a build from the Downloads section, create a .bat file containing - or launch via cmd - `javaw -jar CatacombSnatchRedditEdition-xyz.jar`, where the last parameter  is the location of the builds.
+
+Do some Google-Fu! if you do not have Java installed, or if you get an error saying `javaw` is not recognised as a command (something something environmental variables something).
+
+### About
 Project co-ordinator: RJackson
 
 Project moderators (accept/deny pull requests):
@@ -33,6 +39,7 @@ Changelog
 =========
 ### Build 1 - 21 Feb 2012
 Not sure which was the last commit before Build 1 was built...so I'm just going to guess by the commit times.
+
 * Fixed crash on Harvester death.
 * Fixed score being applied to the wrong player.
 * Added "debug" hacks.

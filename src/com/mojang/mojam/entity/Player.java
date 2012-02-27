@@ -276,8 +276,8 @@ public class Player extends Mob implements LootCollector {
                     payCost(COST_RAIL);
                 }
             } else if (level.getTile(x, y) instanceof RailTile) {
-                if ((y < 8 && team == Team.Team2) || (y > level.height - 9 && team == Team.Team1)
-                	|| (x < 8 && team == Team.Team3) || (x > level.width - 9 && team == Team.Team4) ) {
+                if (score >= COST_DROID && ((y < 8 && team == Team.Team2) || (y > level.height - 9 && team == Team.Team1)
+                	|| (x < 8 && team == Team.Team3) || (x > level.width - 9 && team == Team.Team4)) ) {
                         level.addEntity(new RailDroid(pos.x, pos.y, team));
                         payCost(COST_DROID);
                 } else {

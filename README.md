@@ -29,9 +29,10 @@ The project is currently in its infancy and, as such, very open to discussion re
 
 Join the community working on the project in the #rCatacombSnatch IRC channel on the irc.esper.net.
 
-Changes (from Mojangs source)
-=============================
-
+Changelog
+=========
+### Build 1 - 21 Feb 2012
+Not sure which was the last commit before Build 1 was built...so I'm just going to guess by the commit times.
 * Fixed crash on Harvester death.
 * Fixed score being applied to the wrong player.
 * Added "debug" hacks.
@@ -42,19 +43,23 @@ Changes (from Mojangs source)
   * `5` - spawn a slave 
   * `6` - increase team1 score
   * `7` - increase team2 score 
+* Added new buttons
 * Reduced multi-player latency issues.
 * Added 3 new levels, and having the played level randomly chosen.
 * Better menu visuals
 * Fixed turrets shooting treasure.
 * Displayed IP address on the waiting screen for multi-player hosts.
+
+### Build 2 - 27 Feb 2012
 * Turret now has line-of-sight support, thereby not being able to shoot at targets if a wall is in between the turret and the target.
-* Added a help menu
+* Added a help menu (can be accessed from title menu, pause menu of via the F1 key in-game)
 * Modified buttons - instead of just being a graphic (that contains the related text, they are now just a background graphic with text rendered on top.
 * Implemented the ability to pause the game (escape key).
 * Removed FPS counter.
 * Added button to mute sound - 'M'.
 * Up to 4 players when in multiplayer
 * Binding Of Isaac style controls.
+ * Movement: WASD; shoot: Arrow keys.
 
 Ideas
 =====

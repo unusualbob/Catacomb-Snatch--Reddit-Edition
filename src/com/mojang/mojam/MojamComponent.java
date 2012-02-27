@@ -23,7 +23,10 @@ import com.mojang.mojam.screen.Screen;
 import com.mojang.mojam.sound.SoundPlayer;
 
 public class MojamComponent extends Canvas implements Runnable, MouseMotionListener, CommandListener, PacketListener, MouseListener, ButtonListener, KeyListener {
-
+	public static final String build = "Build #2 Feb 27, 2012";
+	public static final String project_source = "github.com/rCatacombSnatch";
+	public static final String project_website = "reddit.com/r/CatacombSnatch";
+	
     private static final long serialVersionUID = 1L;
     public static final int GAME_WIDTH = 512;
     public static final int GAME_HEIGHT = GAME_WIDTH * 3 / 4;

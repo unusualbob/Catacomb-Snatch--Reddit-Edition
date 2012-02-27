@@ -2,6 +2,7 @@ package com.mojang.mojam.gui;
 
 import java.awt.event.KeyEvent;
 
+import com.mojang.mojam.MojamComponent;
 import com.mojang.mojam.screen.*;
 
 
@@ -48,6 +49,10 @@ public class TitleMenu extends GuiMenu {
         super.render(screen);
 
         screen.blit(Art.lordLard[0][6], (gameWidth - 128) / 2 - 40, 180 + selectedItem * 40);
+
+        Font.draw(screen, MojamComponent.build, 10, 10);
+        Font.draw(screen, MojamComponent.project_source, 10, 20);
+        Font.draw(screen, MojamComponent.project_website, 10, 30);
     }
 
     @Override

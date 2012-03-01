@@ -34,7 +34,10 @@ public class JoinWaitMenu extends GuiMenu {
         super.render(screen);
     }
 
-    public void keyPressed(KeyEvent arg0) {
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        	buttons.get(0).postClick();
+        }
     }
 
     public void keyReleased(KeyEvent arg0) {

@@ -37,11 +37,11 @@ public class PauseMenu extends GuiMenu {
     	if (e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_W) {
             selectedItem--;
             if (selectedItem < 0) {
-                selectedItem = 1;
+                selectedItem = 2;
             }
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN || e.getKeyCode() == KeyEvent.VK_S) {
             selectedItem++;
-            if (selectedItem > 1) {
+            if (selectedItem > 2) {
                 selectedItem = 0;
             }
         }

@@ -29,6 +29,11 @@ public class JoinGameMenu extends GuiMenu {
         if (e.getKeyChar() == KeyEvent.VK_ENTER && TitleMenu.ip.length() > 0) {
             joinButton.postClick();
         }
+        
+        if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        	buttons.get(1).postClick();
+        }
+       
     }
 
     public void keyReleased(KeyEvent arg0) {
